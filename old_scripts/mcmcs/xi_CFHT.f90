@@ -126,6 +126,7 @@ PROGRAM halo_model
    END DO
 
    ! Send value via stdout to python
-   WRITE (*, *) xi_out
+   WRITE (*, *) xi_tab
+   ! WRITE (*, *) xi_out
 
 END PROGRAM

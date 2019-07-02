@@ -1,7 +1,4 @@
 import numpy as np
-import scipy as cp
-import os
-from math import *
 import subprocess as sub
 
 
@@ -17,5 +14,6 @@ def xiCFHT(q, p, icosmo, ihm, verbose=False):
 
     if err:
         print("q={0}, p={1} : {2}" .format(*[q, p, err]))
+        return np.array([-np.pi])
     result = np.array(out.decode('ascii').split(), dtype=float)
     return result

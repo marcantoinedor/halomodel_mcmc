@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import mcmc.old_mcmcs.realMf as hm
 
-compute = False
+compute = True
 analyse = True
 ps = np.arange(0., 0.49, 0.01)
 qs = np.arange(0.3, 1.2, 0.01)

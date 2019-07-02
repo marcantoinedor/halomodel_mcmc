@@ -20,7 +20,7 @@ figures/
 
 #Python directories
 
-__pycache__/
+*__pycache__*
 
 #sh scripts to get results
 
