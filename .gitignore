@@ -6,9 +6,8 @@
 build/
 debug_build/
 
-# Binaries
-# Important to have some binaries for plots
-*.e
+#Binaries for plots and mcmc
+bin/
 
 # Library
 lib/
@@ -17,8 +16,7 @@ lib/
 data/
 
 # Plots
-*.eps
-figures/*
+figures/
 
 #Python directories
 
