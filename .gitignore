@@ -8,7 +8,7 @@ debug_build/
 
 #Binaries for plots and mcmc
 bin/
-
+mcmc/bin/
 # Library
 lib/
 
@@ -19,7 +19,7 @@ data/
 figures/
 
 #Python directories
-
+__pycache__/
 *__pycache__*
 
 #sh scripts to get results

@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import realMf
 import os
 import sys
-from emcee.utils import MPIPool
 
 # MCMC parameters
 ndim, nwalkers, steps, firsts = 2, 100, 250, 100
