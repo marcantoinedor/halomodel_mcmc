@@ -3,8 +3,8 @@ import emcee
 import scipy.optimize as op
 import numpy as np
 import sys
-import CFHTLenS.get as data
 import correlation
+import CFHTLenS.get as data
 import os
 # Call this script with one argument : number of threads to use in parallelisation for MCMC
 
