@@ -32,7 +32,7 @@ SRC_DIR = src
 BUILD_DIR = build
 
 # Module directory
-MOD_DIR = /home/marco/library/src
+MOD_DIR = ../library/src
 
 # Debug build directory
 DEBUG_BUILD_DIR = debug_build
