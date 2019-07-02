@@ -10,9 +10,9 @@ import os
 
 
 # Running code parameters
-optimize = False
+optimize = True
 MCMC = True
-verb = True
+verb = False
 
 if not len(sys.argv) != 1:
     print("Expecting one and only one argument : the number of threads you want to use")
