@@ -1,0 +1,29 @@
+# Fortran module binaries
+*.mod
+*.o
+
+# Build files
+build/
+debug_build/
+
+# Binaries
+# Important to have some binaries for plots
+*.e
+
+# Library
+lib/
+
+# Data
+data/
+
+# Plots
+*.eps
+figures/*
+
+#Python directories
+
+__pycache__/
+
+#sh scripts to get results
+
+results.sh

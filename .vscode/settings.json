@@ -1,0 +1,22 @@
+{
+    "fortran.preferredCase": "uppercase",
+	"files.associations": {
+		"*.f90": "FortranFreeForm"
+	},
+	"fortran.linterExtraArgs": [
+		"-Warray-bounds -lgfortran -lm -ffree-line-length-none -std=gnu -fdefault-real-8 -fdefault-double-8 -ffpe-trap=invalid,zero,overflow -O3"
+	],
+	"emeraldwalk.runonsave": {
+		"commands": [
+			{
+				"match": "\\.f90$",
+				"cmd": "fprettify ${file} -l 1000"
+			}
+		]
+	},
+	"files.watcherExclude": {
+		"**/.git/objects/**": true,
+		"**/.git/subtree-cache/**": true,
+		"**/data/**": true
+	  }
+}
