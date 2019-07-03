@@ -6,6 +6,8 @@ import sys
 import correlation
 import CFHTLenS.get as data
 import os
+
+
 # Call this script with one argument : number of threads to use in parallelisation for MCMC
 
 
@@ -35,7 +37,7 @@ p_o = 0.2
 q_o = 0.6
 
 # MCMC parameters
-ndim, nwalkers, steps = 2, 100, 250
+ndim, nwalkers, steps = 2, 200, 1000
 
 # Importing Data from CFHT
 print("Loading data")
@@ -60,7 +62,7 @@ errm = data.sigm()
 
 def lnlike(params, y, invcov, verbose=False):
     q, p = params
-    if not (0.5 < q < 1.0 and 0.1 < p < 0.45):
+    if not (0.2 < q < 1.5 and 0.0 <= p < 0.5):
         return -np.inf
     model = correlation.xiCFHT(q, p, icosmo, ihm, verbose=verbose)
     if model[0] == -np.pi:
@@ -101,7 +103,7 @@ if not MCMC:
 
 def lnprior(params):
     q, p = params
-    if 0.5 < q < 1.0 and 0.1 < p < 0.45:
+    if 0.2 < q < 1.5 and 0.0 <= p < 0.5:
         return 0.0
     return -np.inf
 
@@ -117,10 +119,10 @@ print("Starting MCMC on {0} threads" .format(threads))
 
 
 # initial position of walkers (near real solution)
-pos = [[q_st, p_st] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
+pos = [[q_st, p_st] + 1e-2*np.random.randn(ndim) for i in range(nwalkers)]
 
 if optimize:
-    pos = [[q_ml, p_ml] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
+    pos = [[q_ml, p_ml] + 1e-2*np.random.randn(ndim) for i in range(nwalkers)]
 
 sampler = emcee.EnsembleSampler(
     nwalkers, ndim, lnprob, args=(y, yerrinv, verb), threads=threads)
@@ -129,3 +131,7 @@ sampler.run_mcmc(pos, steps)
 
 # save data
 np.save('mcmc/results/CFHT/chain{0}.npy' .format(icosmo), sampler.chain)
+
+data = open("mcmc/results/CFHT/acceptanceFraction{0}.txt" .format(icosmo), "w")
+data.write("\n\nMean acceptance fraction: {0:.3f}" .format(np.mean(sampler.acceptance_fraction)))
+data.close()
