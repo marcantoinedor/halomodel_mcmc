@@ -3,19 +3,29 @@ import emcee
 import scipy.optimize as op
 import numpy as np
 import matplotlib.pyplot as plt
-import realMf
+import correlation
+import CFHTLenS.get as dataCFHT
 import os
 import sys
 
+# code mode
+if len(sys.argv) != 3:
+    print("Expecting 2 parameters : icosmo , data in ['CFHT', 'KiDs']")
+    quit()
+
+icosmo = int(sys.argv[1])
+ihm = 3
+usedData = sys.argv[2]
+
 # MCMC parameters
-ndim, nwalkers, steps, firsts = 2, 100, 250, 100
+ndim, nwalkers, steps, firsts = 2, 100, 250, 80
 nbr = 100
-others = False
+others = True
 lower1 = 10
 lower2 = 25
 print("Loading and computing data")
 
-data = open('results.txt', "r")
+data = open("mcmc/results/{1}/fit{0}.txt" .format(*[icosmo, usedData]), "r")
 line = data.readlines()
 data.close()
 
@@ -24,52 +34,50 @@ values = line[0].split(',')
 q_ml = float(values[0].split('=')[1])
 p_ml = float(values[1].split('=')[1])
 
-N = 21
+if usedData == 'CFHT':
+    N = 21
+else:
+    print("Error, choose between CFHT and KiDs data")
+    quit()
+
 q_st = 0.707
 p_st = 0.3
 
-x = np.array(realMf.get_theta_CFHT())
+x = dataCFHT.thetas()
 
 # Data from CFHTLenS survey
-xip = realMf.get_xip_CFHT()
-xim = realMf.get_xim_CFHT()
+xip = dataCFHT.xip()
+xim = dataCFHT.xim()
 y = xip.copy()
-for value in xim:
-    y.append(value)
-# y = [[xip[i], xim[i]] for i in range(N)]
-# # Considering uncorrelated errors
-# errp = realMf.get_sigp_CFHT()
-# errm = realMf.get_sigm_CFHT()
-# yerr = np.array([[errp[i], errm[i]]for i in range(N)])
+y = np.append(y, xim)
 
 # Considering the real covariance matrix and all kind of errors
-yerr = realMf.get_cov_mat_CFHT()
+yerr = dataCFHT.cov_mat()
 yerrinv = np.linalg.inv(yerr)
 det = np.linalg.det(yerr)
-errp = realMf.get_sigp_CFHT()
-errm = realMf.get_sigm_CFHT()
+errp = dataCFHT.sigp()
+errm = dataCFHT.sigm()
 
-chain = np.load('results/mcmc.npy')
+chain = np.load('mcmc/results/{1}/chain{0}.npy' .format(*[icosmo, usedData]))
 
-# print(chain.size)
-# print(chain)
 otherchain = chain.reshape((nwalkers, steps, ndim))
-# print(chain)
 
 # removing first steps
 samples = chain[:, firsts:, :].reshape((-1, ndim))
 
 # plot model with results
 
-os.system("mkdir -p figures/CFHT")
-model = realMf.CFHTv(N, q_ml, p_ml)
-theory = realMf.CFHTv(N, q_st, p_st)
+os.system("mkdir -p mcmc/figures/{0}" .format(usedData))
+
+if usedData == 'CFHT':
+    model = correlation.xiCFHT(q_ml, p_ml, icosmo, ihm, True)
+    theory = correlation.xiCFHT(q_st, p_st, icosmo, ihm, True)
 
 print("Plotting basic results")
 plt.figure(1).set_size_inches((8, 8), forward=False)
 plt.title(
     "Correlation function $\\xi_+$")
-plt.plot(x, model[:N], label="CFHTLenS")
+plt.plot(x, model[:N], label="{0}" .format(usedData))
 plt.plot(x, theory[:N], '--', label="Sheth and Tormen")
 plt.legend()
 plt.errorbar(x, xip, np.sqrt(errp), fmt='.k',  elinewidth=0.5, capsize=3)
@@ -79,11 +87,11 @@ plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_+$')
 
 
-plt.savefig('figures/CFHT/xip.png', bbox_inches='tight')
+plt.savefig('mcmc/figures/{1}/xip{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
 plt.figure(2).set_size_inches((8, 8), forward=False)
 plt.title(
     "Correlation function $\\xi_-$")
-plt.plot(x, model[N:], label="CFHTLenS")
+plt.plot(x, model[N:], label="{0}" .format(usedData))
 plt.plot(x, theory[N:], '--', label="Sheth and Tormen")
 plt.legend()
 
@@ -92,7 +100,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_-$')
-plt.savefig('figures/CFHT/xim.png', bbox_inches='tight')
+plt.savefig('mcmc/figures/{1}/xim{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
 
 # plots of the sampler
 plt.figure(3)
@@ -103,10 +111,10 @@ for i in range(nwalkers):
     ax2.plot(chain[i, :, 1], color='black')
 
 plt.figure(3)
-plt.savefig("mcmc_walkers_CFHT.png")
+plt.savefig("mcmc/figures/{1}/mcmc_walkers{0}.png" .format(*[icosmo, usedData]), dpi=300)
 
 fig = corner.corner(samples, labels=["$q$", "$p$"], truths=[q_ml, p_ml])
-fig.savefig("CFHT/mcmc_contours.png")
+fig.savefig("mcmc/figures/{1}/mcmc_contours{0}.png" .format(*[icosmo, usedData]), dpi=300)
 
 print("Basic plots created")
 
@@ -123,21 +131,17 @@ print("MCMC found these values for {0}/100 certainties" .format(lower2))
 print("q={0} + {1}, - {2}" .format(*[q_mcmc2[0], q_mcmc2[1], q_mcmc2[2]]))
 print("p={0} + {1}, - {2}" .format(*[p_mcmc2[0], p_mcmc2[1], p_mcmc2[2]]))
 
-upper_percentile1 = realMf.CFHTv(
-    N, q_mcmc1[0]+q_mcmc1[1], p_mcmc1[0]+p_mcmc1[1])
-lower_percentile1 = realMf.CFHTv(
-    N, q_mcmc1[0]-q_mcmc1[2], p_mcmc1[0]-p_mcmc1[2])
+upper_percentile1 = correlation.xiCFHT(q_mcmc1[0]+q_mcmc1[1], p_mcmc1[0]+p_mcmc1[1], icosmo, ihm, True)
+lower_percentile1 = correlation.xiCFHT(q_mcmc1[0]-q_mcmc1[2], p_mcmc1[0]-p_mcmc1[2], icosmo, ihm, True)
 
-upper_percentile2 = realMf.CFHTv(
-    N, q_mcmc2[0]+q_mcmc2[1], p_mcmc2[0]+p_mcmc2[1])
-lower_percentile2 = realMf.CFHTv(
-    N, q_mcmc2[0]-q_mcmc2[2], p_mcmc2[0]-p_mcmc2[2])
+upper_percentile2 = correlation.xiCFHT(q_mcmc2[0]+q_mcmc2[1], p_mcmc2[0]+p_mcmc2[1], icosmo, ihm, True)
+lower_percentile2 = correlation.xiCFHT(q_mcmc2[0]-q_mcmc2[2], p_mcmc2[0]-p_mcmc2[2], icosmo, ihm, True)
 
 
 plt.figure(7).set_size_inches((8, 8), forward=False)
 plt.title(
     "Correlation function $\\xi_+$")
-plt.plot(x, model[:N], '--', color='r', label="CFHTLenS")
+plt.plot(x, model[:N], '--', color='r', label="{0}" .format(usedData))
 plt.plot(x, theory[:N], '--', color='orange', label="Sheth and Tormen")
 plt.plot(x, upper_percentile1[:N], color='g', alpha=0.5,
          label="Upper value {0} %" .format(100-lower1))
@@ -152,13 +156,13 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_+$')
+plt.savefig('mcmc/figures/{1}/xip_percentile{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
 
 
-plt.savefig('figures/CFHT/xip_percentile.png', bbox_inches='tight')
 plt.figure(8).set_size_inches((8, 8), forward=False)
 plt.title(
     "Correlation function $\\xi_-$")
-plt.plot(x, model[N:], '--', color='r', label="CFHTLenS")
+plt.plot(x, model[N:], '--', color='r', label="{0}" .format(usedData))
 plt.plot(x, theory[N:], '--', color='orange', label="Sheth and Tormen")
 plt.plot(x, upper_percentile1[N:], color='g', alpha=0.5,
          label="Upper value {0} %" .format(100-lower1))
@@ -173,17 +177,18 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_-$')
-plt.savefig('figures/CFHT/xim_percentile.png', bbox_inches='tight')
+plt.savefig('mcmc/figures/{1}/xim_percentile{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
 
 if not others:
     plt.show()
     quit()
+
 print("Creating {0} sampled plots" .format(nbr))
 # plot many
 plt.figure(5).set_size_inches((8, 8), forward=False)
 plt.title(
     "Correlation function $\\xi_+$")
-plt.plot(x, model[:N], label="CFHTLenS")
+plt.plot(x, model[:N], label="{0}" .format(usedData))
 plt.plot(x, theory[:N], '--', label="Sheth and Tormen")
 plt.legend()
 plt.errorbar(x, xip, np.sqrt(errp), fmt='.k',  elinewidth=0.5, capsize=3)
@@ -196,7 +201,7 @@ plt.ylabel('$\\xi_+$')
 plt.figure(6).set_size_inches((8, 8), forward=False)
 plt.title(
     "Correlation function $\\xi_-$")
-plt.plot(x, model[N:], label="CFHTLenS")
+plt.plot(x, model[N:], label="{0}" .format(usedData))
 plt.plot(x, theory[N:], '--', label="Sheth and Tormen")
 plt.legend()
 plt.errorbar(x, xim, np.sqrt(errm), fmt='.k',  elinewidth=0.5, capsize=3)
@@ -206,7 +211,7 @@ plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_-$')
 
 for q, p in samples[np.random.randint(len(samples), size=nbr)]:
-    values = realMf.CFHTv(N, q, p)
+    values = correlation.xiCFHT(q, p, icosmo, ihm, True)
     plt.figure(5)
     plt.plot(x, values[:N], color="k", alpha=0.03)
     plt.figure(6)
@@ -214,9 +219,9 @@ for q, p in samples[np.random.randint(len(samples), size=nbr)]:
 
 
 plt.figure(5)
-plt.savefig('figures/CFHT/xip_var.png', bbox_inches='tight')
+plt.savefig('mcmc/figures/{1}/xip_var{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
 plt.figure(6)
-plt.savefig('figures/CFHT/xim_var.png', bbox_inches='tight')
+plt.savefig('mcmc/figures/{1}/xim_var{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
 
 
 plt.show(fig)
