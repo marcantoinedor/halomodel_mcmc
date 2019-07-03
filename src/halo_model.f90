@@ -13,7 +13,7 @@ PROGRAM halo_model
    INTEGER :: icosmo, ihm, field(1), i, j, nf, ix(2)
    INTEGER :: nk, na, nl, name, nth, l_max, m
    INTEGER, ALLOCATABLE :: iBessel(:)
-   CHARACTER(len=256) :: input, th_str, p_str, q_str, icosmo_str, ihm_str
+   CHARACTER(len=256) :: input, th_str, p_str, q_str, icosmo_str, ihm_str, output1, output3, fbase, fext1, fext3
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
 
@@ -120,12 +120,22 @@ PROGRAM halo_model
 
    CALL calculate_angular_xi(iBessel, m, th_tab, xi_tab, nth, l_array, Cl, nl, l_max)
 
+   fbase = 'data/icosmo='
+   fbase = trim(fbase)//trim(icosmo_str)
+   fext1 = '/xi1_CFHT.dat'
+   output1 = TRIM(fbase)//TRIM(fext1)
+
+   fext3 = '/xi3_CFHT.dat'
+   output3 = TRIM(fbase)//TRIM(fext3)
+
+   OPEN (1, file=output1)
+   OPEN (2, file=output3)
    DO j = 1, nth
-      xi_out(j) = xi_tab(1, j)
-      xi_out(nth + j) = xi_tab(2, j)
+      WRITE (1, *) xi_tab(1, j)
+      WRITE (2, *) xi_tab(2, j)
    END DO
 
-   ! Send value via stdout to python
-   WRITE (*, *) xi_out
+   CLOSE (1)
+   CLOSE (2)
 
 END PROGRAM
