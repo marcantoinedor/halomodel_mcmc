@@ -14,16 +14,16 @@ optimize = True
 MCMC = True
 verb = False
 
-if len(sys.argv) != 3:
-    print("Expecting 2 arguments : icosmo and the number of threads you want to use")
-    quit()
+# if len(sys.argv) != 3:
+#     print("Expecting 2 arguments : icosmo and the number of threads you want to use")
+#     quit()
 
 
-threads = int(sys.argv[2])
+threads = 64
 
 # HM code parameters
 
-icosmo = int(sys.argv[1])
+icosmo = 42
 ihm = 3
 
 # model parameters
