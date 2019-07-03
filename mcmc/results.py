@@ -125,12 +125,24 @@ print("MCMC found these values for {0}/100 certainties" .format(lower1))
 print("q={0} + {1}, - {2}" .format(*[q_mcmc1[0], q_mcmc1[1], q_mcmc1[2]]))
 print("p={0} + {1}, - {2}" .format(*[p_mcmc1[0], p_mcmc1[1], p_mcmc1[2]]))
 
+# Save these values
+data = open("mcmc/results/{1}/mcmc{0}.txt" .format(*[icosmo, usedData]), "w")
+data.write("MCMC found these values for {0}/100 certainties" .format(lower1))
+data.write("\nq={0} + {1}, - {2}" .format(*[q_mcmc1[0], q_mcmc1[1], q_mcmc1[2]]))
+data.write("\np={0} + {1}, - {2}" .format(*[p_mcmc1[0], p_mcmc1[1], p_mcmc1[2]]))
+
 q_mcmc2, p_mcmc2 = map(lambda v: (
     v[1], v[2]-v[1], v[1]-v[0]), zip(*np.percentile(samples, [lower2, 50, 100-lower2], axis=0)))
 print("MCMC found these values for {0}/100 certainties" .format(lower2))
 print("q={0} + {1}, - {2}" .format(*[q_mcmc2[0], q_mcmc2[1], q_mcmc2[2]]))
 print("p={0} + {1}, - {2}" .format(*[p_mcmc2[0], p_mcmc2[1], p_mcmc2[2]]))
 
+data.write("\nMCMC found these values for {0}/100 certainties" .format(lower2))
+data.write("\nq={0} + {1}, - {2}" .format(*[q_mcmc2[0], q_mcmc2[1], q_mcmc2[2]]))
+data.write("\np={0} + {1}, - {2}" .format(*[p_mcmc2[0], p_mcmc2[1], p_mcmc2[2]]))
+data.close()
+
+# Compute contours
 upper_percentile1 = correlation.xiCFHT(q_mcmc1[0]+q_mcmc1[1], p_mcmc1[0]+p_mcmc1[1], icosmo, ihm, True)
 lower_percentile1 = correlation.xiCFHT(q_mcmc1[0]-q_mcmc1[2], p_mcmc1[0]-p_mcmc1[2], icosmo, ihm, True)
 
