@@ -25,3 +25,4 @@ __pycache__/
 #sh scripts to get results
 
 results.sh
+run.sh
