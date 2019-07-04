@@ -12,7 +12,7 @@ import os
 
 
 # Running code parameters
-optimize = True
+optimize = False
 MCMC = True
 verb = False
 
@@ -73,7 +73,7 @@ def lnlike(params, y, invcov, verbose=False):
 if not MCMC:
     print("Fitting model only mode")
 if not optimize:
-    print("MCMC only mode, using Sheth and Tormen parameters")
+    print("MCMC only mode, using already computed parameters")
 
 # Find the maximum of the likehood to get the best parameters thanks to the data
 os.system("mkdir -p mcmc/results/CFHT")
@@ -83,8 +83,7 @@ if optimize:
     # We want to maximise the likehood
     nll = lambda *args: -lnlike(*args)
     # Best to use log-parameters I think, thanks to the living spaces of p and q
-    result = op.minimize(nll, [q_st, p_st],
-                         args=(y, yerrinv, True))
+    result = op.minimize(nll, [q_st, p_st], args=(y, yerrinv, True))
     q_ml, p_ml = result["x"]
     print("Best fit is q={0}, p={1}" .format(*[q_ml, p_ml]))
     data = open("mcmc/results/CFHT/fit{0}.txt" .format(icosmo), "w")
@@ -92,7 +91,17 @@ if optimize:
     data.close()
 
 else:
-    q_ml, p_ml = q_st, p_st
+    if os.path.isfile("mcmc/results/CFHT/fit{0}.txt" .format(icosmo)):
+        data = open("mcmc/results/CFHT/fit{0}.txt" .format(icosmo), "r")
+        line = data.readlines()
+        data.close()
+
+        values = line[0].split(',')
+
+        q_ml = float(values[0].split('=')[1])
+        p_ml = float(values[1].split('=')[1])
+    else:
+        q_ml, p_ml = q_st, p_st
 
 # MCMC, to get uncertainties
 # uniform distribution of theta in a 2-D box
@@ -133,5 +142,5 @@ sampler.run_mcmc(pos, steps)
 np.save('mcmc/results/CFHT/chain{0}.npy' .format(icosmo), sampler.chain)
 
 data = open("mcmc/results/CFHT/acceptanceFraction{0}.txt" .format(icosmo), "w")
-data.write("\n\nMean acceptance fraction: {0:.3f}" .format(np.mean(sampler.acceptance_fraction)))
+data.write("Mean acceptance fraction: {0:.3f}" .format(np.mean(sampler.acceptance_fraction)))
 data.close()
