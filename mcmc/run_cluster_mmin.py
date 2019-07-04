@@ -11,7 +11,7 @@ import os
 
 
 # Running code parameters
-optimize = False
+optimize = True
 MCMC = True
 verb = False
 
@@ -31,7 +31,7 @@ ihm = 3
 mmin_st = 7.0
 
 # MCMC parameters
-ndim, nwalkers, steps = 1, 10, 10
+ndim, nwalkers, steps = 1, 200, 1000
 
 # Importing Data from CFHT
 print("Loading data")

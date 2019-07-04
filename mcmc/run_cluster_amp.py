@@ -30,7 +30,7 @@ ihm = 3
 alpha_st = 1.0
 
 # MCMC parameters
-ndim, nwalkers, steps = 1, 10, 10
+ndim, nwalkers, steps = 1, 200, 1000
 
 # Importing Data from CFHT
 print("Loading data")
