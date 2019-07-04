@@ -1,4 +1,3 @@
-import corner
 import emcee
 import scipy.optimize as op
 import numpy as np

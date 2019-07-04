@@ -1,4 +1,3 @@
-import corner
 import emcee
 import scipy.optimize as op
 import numpy as np
@@ -96,9 +95,10 @@ if not MCMC:
     quit()
 
 
-def lnprior(param):
-    mmin = param
-    if 7. <= mmin <= 15.:
+def lnprior(param): export PYTHONPATH = "/home/dor/hm_mcmc/mcmc:/home/dor/hm_mcmc:${PYTHONPATH}"
+
+  mmin = param
+   if 7. <= mmin <= 15.:
         return 0.0
     return -np.inf
 
