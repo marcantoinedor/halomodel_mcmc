@@ -7,25 +7,23 @@ PROGRAM halo_model
    USE string_operations
 
    IMPLICIT NONE
-   REAL :: kmin, kmax, amin, amax, lmin, lmax, icosmo_real, ihm_real, mmin, mmin_log
+   REAL :: kmin, kmax, amin, amax, lmin, lmax, icosmo_real, ihm_real
    REAL, ALLOCATABLE :: k(:), l_array(:), a(:), Cl(:), th_tab(:), xi_tab(:, :), xi_out(:)
    REAL, ALLOCATABLE :: pow_li(:, :), pow_2h(:, :, :, :), pow_1h(:, :, :, :), pow_hm(:, :, :, :)
    INTEGER :: icosmo, ihm, field(1), i, j, nf, ix(2)
    INTEGER :: nk, na, nl, name, nth, l_max, m
    INTEGER, ALLOCATABLE :: iBessel(:)
-   CHARACTER(len=256) :: input, th_str, icosmo_str, ihm_str, alpha_str, mmin_str
+   CHARACTER(len=256) :: input, th_str, icosmo_str, ihm_str, alpha_str
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
 
 !   Integration domain : to modify to find the importance of this on the power spectrum
+   REAL, PARAMETER :: mmin = 1e7
    REAL, PARAMETER :: mmax = 1e17
    LOGICAL, PARAMETER :: verbose = .FALSE.
    LOGICAL, PARAMETER :: response = .FALSE.
 
-   ! log space for mmin
-   CALL get_command_argument(1, mmin_str)
-   read (mmin_str, '(f10.0)') mmin_log
-   mmin = exp(log(10.)*mmin_log)
+   CALL get_command_argument(1, alpha_str)
 
    CALL get_command_argument(2, icosmo_str)
 

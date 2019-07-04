@@ -17,3 +17,19 @@ def xiCFHT(q, p, icosmo, ihm, verbose=False):
         return np.array([-np.pi])
     result = np.array(out.decode('ascii').split(), dtype=float)
     return result
+
+
+def xi_ampCFHT(alpha, icosmo, ihm, verbose=False):
+    if verbose:
+        print("alpha={0}" .format(alpha))
+    hm = "./bin/xi_amp_CFHT"
+    args = [str(alpha), str(icosmo), str(ihm)]
+    # Calling fortran code as a subprocess
+    proc = sub.Popen([hm, args[0], args[1], args[2]], stdout=sub.PIPE)
+    # Launching code
+    out, err = proc.communicate()
+
+    if err:
+        print("alpha={0}: {1}" .format(*[alpha, err]))
+        return np.array([-np.pi])
+    result = np.array(out.decode('ascii').split(), dtype=float)
