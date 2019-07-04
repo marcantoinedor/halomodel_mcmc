@@ -7,11 +7,11 @@ import CFHTLenS.get as data
 import os
 
 
-# Call this script with one argument : number of threads to use in parallelisation for MCMC
+# Call this script with two arguments : icosmo andnumber of threads to use in parallelisation for MCMC
 
 
 # Running code parameters
-optimize = True
+optimize = False
 MCMC = True
 verb = False
 
@@ -55,7 +55,7 @@ errm = data.sigm()
 
 
 def lnlike(param, y, invcov, verbose=False):
-    mmin = param
+    mmin = param[0]
     if not (7. <= mmin <= 15.):
         return -np.inf
     model = correlation.xi_mminCFHT(mmin, icosmo, ihm, verbose=verbose)
@@ -77,12 +77,12 @@ if optimize:
     # We want to maximise the likehood
     nll = lambda *args: -lnlike(*args)
     # Best to use log-parameters I think, thanks to the living spaces of p and q
-    result = op.minimize(nll, mmin_st,
+    result = op.minimize(nll, [mmin_st],
                          args=(y, yerrinv, True))
-    mmin_ml = result["x"]
-    print("Best fit is mmin={0}" .format(mmin))
+    mmin_ml = result["x"][0]
+    print("Best fit is mmin={0}" .format(mmin_ml))
     data = open("mcmc/results/CFHT/mmin{0}.txt" .format(icosmo), "w")
-    data.write("mmin={0}" .format(mmin))
+    data.write("mmin={0}" .format(mmin_ml))
     data.close()
 
 else:
@@ -95,10 +95,9 @@ if not MCMC:
     quit()
 
 
-def lnprior(param): export PYTHONPATH = "/home/dor/hm_mcmc/mcmc:/home/dor/hm_mcmc:${PYTHONPATH}"
-
-  mmin = param
-   if 7. <= mmin <= 15.:
+def lnprior(param):
+    mmin = param[0]
+    if 7. <= mmin <= 15.:
         return 0.0
     return -np.inf
 

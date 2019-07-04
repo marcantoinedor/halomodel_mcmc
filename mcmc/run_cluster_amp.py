@@ -54,7 +54,7 @@ errm = data.sigm()
 
 
 def lnlike(param, y, invcov, verbose=False):
-    alpha = param
+    alpha = param[0]
     if not (0.5 < alpha < 1.5):
         return -np.inf
     model = correlation.xi_ampCFHT(alpha, icosmo, ihm, verbose=verbose)
@@ -76,12 +76,12 @@ if optimize:
     # We want to maximise the likehood
     nll = lambda *args: -lnlike(*args)
     # Best to use log-parameters I think, thanks to the living spaces of p and q
-    result = op.minimize(nll, alpha_st,
+    result = op.minimize(nll, [alpha_st],
                          args=(y, yerrinv, True))
-    alpha_ml = result["x"]
+    alpha_ml = result["x"][0]
     print("Best fit is alpha={0}" .format(alpha))
     data = open("mcmc/results/CFHT/alpha{0}.txt" .format(icosmo), "w")
-    data.write("alpha={0}" .format(alpha))
+    data.write("alpha={0}" .format(alpha_ml))
     data.close()
 
 else:
@@ -95,7 +95,7 @@ if not MCMC:
 
 
 def lnprior(param):
-    alpha = param
+    alpha = param[0]
     if 0.5 < alpha < 1.5:
         return 0.0
     return -np.inf

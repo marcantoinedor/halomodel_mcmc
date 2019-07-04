@@ -45,8 +45,6 @@ PROGRAM halo_model
    ihm = INT(ihm_real)
    CALL assign_halomod(ihm, hmod, verbose)
 
-   read (alpha_str, '(f10.0)') hmod%Amp_mf
-
    ! Set number of k points and k range (log spaced)
    nk = 128
    kmin = 1e-3
