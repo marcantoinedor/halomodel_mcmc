@@ -57,9 +57,9 @@ errm = data.sigm()
 
 def lnlike(param, y, invcov, verbose=False):
     mmin = param
-    if not (0.5 < mmin < 1.5):
+    if not (7. <= mmin <= 15.):
         return -np.inf
-    model = correlation.xi_ampCFHT(mmin, icosmo, ihm, verbose=verbose)
+    model = correlation.xi_mminCFHT(mmin, icosmo, ihm, verbose=verbose)
     if model[0] == -np.pi:
         return -np.inf
     return -0.5*np.matmul(np.transpose(y-model), np.matmul(invcov, (y-model)))
@@ -98,7 +98,7 @@ if not MCMC:
 
 def lnprior(param):
     mmin = param
-    if 0.5 < mmin < 1.5:
+    if 7. <= mmin <= 15.:
         return 0.0
     return -np.inf
 
