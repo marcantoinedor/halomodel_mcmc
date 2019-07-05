@@ -18,9 +18,9 @@ ihm = 3
 usedData = sys.argv[2]
 
 # MCMC parameters
-ndim, nwalkers, steps, firsts = 2, 100, 250, 80
+ndim, nwalkers, steps, firsts = 2, 200, 1000, 150
 nbr = 100
-others = True
+others = False
 lower1 = 10
 lower2 = 25
 print("Loading and computing data")
