@@ -4,9 +4,13 @@ import mcmc.correlation as correlation
 import CFHTLenS.get as data
 import os
 import matplotlib.pyplot as plt
+import scipy.optimize as op
 
 computes = False
 icosmo = int(sys.argv[1])
+icosmos = [1, 4, 42]
+index = icosmos.index(icosmo)
+cosmos = ['Boring', 'WMAP9', 'Planck 2018']
 ihm = 3
 alpha_st = 1.0
 
@@ -51,8 +55,22 @@ if computes:
 else:
     likes = np.load('mcmc/data/likehood_alpha{0}.npy' .format(icosmo))
 
+
+nll = lambda *args: -lnlike(*args)
+# Best to use log-parameters I think, thanks to the living spaces of p and q
+result = op.minimize(nll, [alpha_st],
+                     args=(y, yerrinv, True), method='Nelder-Mead', tol=1e-6)
+alpha_ml = result["x"][0]
+value = lnlike([alpha_ml], y, yerrinv, verbose=True)
+
+print("Best fit is alpha={0}" .format(alpha_ml))
+
+
 plt.plot(alphas, likes)
+plt.plot([alpha_ml], [value], '-ro', label="{0}" .format(alpha_ml))
+plt.title('Best fit for {0} cosmology' .format(cosmos[index]))
 plt.xlabel('log(alpha)')
 plt.ylabel('ln_like')
+plt.legend()
 plt.savefig('mcmc/figures/CFHT/likehood/alpha{0}.png' .format(icosmo))
 plt.show()
