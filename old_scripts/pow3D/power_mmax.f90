@@ -5,19 +5,23 @@ PROGRAM halo_model
    USE HMx
 
    IMPLICIT NONE
-   REAL :: kmin, kmax, amin, amax
+   REAL :: kmin, kmax, amin, amax, mmax
    REAL, ALLOCATABLE :: k(:), a(:)
    REAL, ALLOCATABLE :: pow_li(:, :), pow_2h(:, :, :, :), pow_1h(:, :, :, :), pow_hm(:, :, :, :)
-   INTEGER :: icosmo, ihm, field(1)
+   INTEGER :: icosmo, ihm, field(1), i, j
    INTEGER :: nk, na, nf
-   CHARACTER(len=256) :: base
+   CHARACTER(len=256) :: base, mmax_str
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
+   LOGICAL :: verbose2
 
-!   Integration domain : to modify to find the importance of this on the power spectrum
+   !   Integration domain : to modify to find the importance of this on the power spectrum
    REAL, PARAMETER :: mmin = 1e7
-   REAL, PARAMETER :: mmax = 1e17
-   LOGICAL, PARAMETER :: verbose = .TRUE.
+   LOGICAL, PARAMETER :: verbose = .FALSE.
+   LOGICAL, PARAMETER :: response = .FALSE.
+
+   CALL get_command_argument(1, mmax_str)
+   read (mmax_str, '(f10.0)') mmax
 
    ! Assigns the cosmological model
    icosmo = 1
@@ -28,6 +32,8 @@ PROGRAM halo_model
    ! Assign the halo model
    ihm = 3
    CALL assign_halomod(ihm, hmod, verbose)
+   !hmod%ST_p=0.4 ! Example of how to change mass function parameter q
+   !hmod%ST_q=0.8 ! Example of how to change mass function parameter p
 
    ! Set number of k points and k range (log spaced)
    nk = 128
@@ -36,7 +42,7 @@ PROGRAM halo_model
    CALL fill_array(log(kmin), log(kmax), k, nk)
    k = exp(k)
 
-   ! Set the number of redshifts and range (linearly spaced) and convert z -> a
+   ! Set the number of scale factors and range (linearly spaced)
    amin = 0.1
    amax = 1.0
    na = 10
@@ -48,10 +54,27 @@ PROGRAM halo_model
    ! Calculate halo model
    field = field_dmonly
    nf = 1
-   CALL calculate_HMx(field, nf, mmin, mmax, k, nk, a, na, pow_li, pow_2h, pow_1h, pow_hm, hmod, cosm, verbose, response=.FALSE.)
+
+   ! Loop over scale factors and do calculation
+   DO i = 1, na
+
+      IF (i == na) THEN
+         verbose2 = verbose
+      ELSE
+         verbose2 = .FALSE.
+      END IF
+
+      CALL init_halomod(mmin, mmax, a(i), hmod, cosm, verbose2)
+      CALL print_halomod(hmod, cosm, verbose2)
+      CALL calculate_HMx_a(field, nf, k, nk, pow_li(:, i), pow_2h(:, :, :, i), pow_1h(:, :, :, i), pow_hm(:, :, :, i), hmod, cosm, verbose2, response)
+
+   END DO
 
    ! Write data file to disk
-   base = 'data/power'
+   base = 'data/mmax'
+   base = TRIM(base)//TRIM(mmax_str)
+   base = TRIM(base)//'/power'
+
    CALL write_power_a_multiple(k, a, pow_li, pow_2h, pow_1h, pow_hm, nk, na, base, verbose)
 
 CONTAINS

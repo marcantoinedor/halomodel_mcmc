@@ -1,9 +1,11 @@
 import os
-from math import *
+import create_data as create
 
 
-def get_column(term, mmax, scale):
-    os.system("python3 utils/create_data.py {0}" .format(mmax))
+def get_x_axis_mmax():
+    mmax = '1e17'
+    term = 'hm'
+    create.power3D_mmax([mmax])
     data = open("data/mmax{0}/power_{1}.dat" .format(*[mmax, term]), "r")
 
     lines = data.readlines()
@@ -17,11 +19,48 @@ def get_column(term, mmax, scale):
     return x_axis
 
 
-def get_x_axis_st(term, q, p, scale):
+def get_scale_parameter():
+    mmax = '1e17'
+    term = 'hm'
+    os.system("python3 utils/create_data_mmax.py {0}" .format(mmax))
+    data = open("data/mmax{0}/power_{1}.dat" .format(*[mmax, term]), "r")
 
-    os.system("python3 utils/create_data_st.py {0} {1}" .format(*[q, p]))
+    lines = data.readlines()
+    data.close()
+
+    n = 11
+    scale = []
+    for i in range(n-1):
+        firstLine = lines[0].split('       ')
+        scale.append(float(firstLine[i+3]))
+    return scale
+
+
+def get_pow3D_mmax(term, mmax, iscale):
+    '''
+    str * str * int -> list
+    giving term in ['hm', '1h', '2h', 'linear'], mmax and scale parameter index, returns the column of data
+    '''
+
+    data = open("data/mmax{0}/power_{1}.dat" .format(*[mmax, term]), "r")
+    lines = data.readlines()
+    data.close()
+
+    # parsing data
+    column = []
+    for j in range(1, len(lines)-1):
+        line = lines[j].split('       ')[1]
+        column.append(float(line.split('    ')[iscale]))
+    line = lines[len(lines)-1].split('      ')[1]
+    column.append(float(line.split('    ')[iscale]))
+    return column
+
+
+def get_x_axis_st(term, q, p):
+
+    create.power_3D_st(q, p)
+
     data = open("data/q={0}p={1}/power_{2}.dat" .format(*[q, p, term]), "r")
-
     lines = data.readlines()
     data.close()
     x_axis = []
@@ -33,10 +72,10 @@ def get_x_axis_st(term, q, p, scale):
     return x_axis
 
 
-def get_column(term, mmax, scale):
+def get_column_mmax(term, mmax, scale):
     '''
     str * str * float -> list
-    giving term in ['hm', '1h', '2h'], mmax and scale parameter, returns the column of data
+    giving term in ['hm', '1h', '2h', 'linear'], mmax and scale parameter, returns the column of data
     '''
 
     os.system("python3 utils/create_data.py {0}" .format(mmax))
@@ -64,8 +103,6 @@ def get_column_st(term, q, p, scale):
     giving term in ['hm', '1h', '2h'], q_st and p_st and scale parameter, returns the column of data
     '''
 
-    os.system("python3 utils/create_data_st.py {0} {1}" .format(*[q, p]))
-
     data = open("data/q={0}p={1}/power_{2}.dat" .format(*[q, p, term]), "r")
     lines = data.readlines()
     data.close()
@@ -79,7 +116,6 @@ def get_column_st(term, q, p, scale):
         column.append(float(line.split('    ')[index_scale]))
     line = lines[len(lines)-1].split('      ')[1]
     column.append(float(line.split('    ')[index_scale]))
-
     return column
 
 

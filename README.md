@@ -20,3 +20,28 @@ To make plots of different quantities in the halo model with variations of some 
 ## MCMC
 
 Markov Chain Monte-Carlo is a mathematical technique to see errorbars on parameters from some constraints, correlation and others things. 
+It is useful, especially to see the correlation between parameters from a fitting process, if there are more than 1 parameter. In this implementation, we have 2 free parameters : p and q. 
+
+### Run MCMC
+
+All MCMC programs are a collaboration between fortran and python languages. The fortran one compute the quantities, given the input parameters and these quantities are compared to the value measured by the data. It communicates thanks to the python library ***subprocess*** which enables to call a process from python and catch the standard output (**stdout**) of this subprocess and the output error (**stderr**).
+
+To run the MCMC routines, you would have to install the ***emcee*** package, available [there](https://emcee.readthedocs.io), a really easy-to-use python package very well documented and which enables a very simple setup for parallel computations for example.
+
+All MCMC routines are in the files such as ***mcmc/run_cluster*.py***. To prepare a run, compilation of fortran sources is needed, but everything is automatized in a shell script: 
+
+```
+./setupMCMCS.sh
+```
+
+And then you can launch a MCMC calculation with a command like this one : 
+
+```
+python3 mcmc/run_cluster_qp.py 1 3
+```
+
+Where the first argument is the index of the cosmology, and the second one is the number of threads you want to use in parallel. 
+
+### MCMC plots
+
+### Development

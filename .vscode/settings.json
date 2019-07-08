@@ -4,7 +4,7 @@
 		"*.f90": "FortranFreeForm"
 	},
 	"fortran.linterExtraArgs": [
-		"-Warray-bounds -lgfortran -lm -ffree-line-length-none -std=gnu -fdefault-real-8 -fdefault-double-8 -ffpe-trap=invalid,zero,overflow -O3"
+		"-Warray-bounds -ffree-line-length-none -fdefault-real-8 -fdefault-double-8 -ffpe-trap=invalid,zero,overflow"
 	],
 	"emeraldwalk.runonsave": {
 		"commands": [

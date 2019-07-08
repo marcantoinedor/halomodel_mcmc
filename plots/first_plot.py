@@ -1,13 +1,8 @@
 import matplotlib.pyplot as plt
-# import numpy as np
-
-# # plt.subplot(2,1,1)
-# plt.plot(x_axis, y_axis, color='blue', lw=2)
 
 # logarithmic scale
 plt.xscale('log')
 plt.yscale('log')
-# Add basey=2 to change base log
 
 # labels
 plt.xlabel('$k / h \ Mpc^{-1}$')
@@ -43,4 +38,5 @@ for i in range(n):
 for i in range(1, n):
     plt.plot(columns[0], columns[i], label='{0}' .format(params[i-1]))
 plt.legend()
+plt.title("Halo-Model power spectrum depending on the redshift")
 plt.show()
