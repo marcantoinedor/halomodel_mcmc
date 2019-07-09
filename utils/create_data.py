@@ -22,3 +22,11 @@ def power_3D_st(q, p, clean=False):
         print("Creating data for q={0} and p={1}" .format(*[q, p]))
         os.system('mkdir -p data/q={0}p={1}' .format(*[q, p]))
         os.system('./bin/plots/pow3D_st {0} {1}' .format(*[q, p]))
+
+
+def power_2D_st(q, p, clean=False):
+
+    if (not os.path.isfile('data/q={0}p={1}/power2D.dat' .format(*[q, p]))) or clean:
+        os.system('mkdir -p data/q={0}p={1}' .format(*[q, p]))
+        print("Creating data q={0}, p={1}" .format(*[q, p]))
+        os.system('./bin/plots/pow2D_st {0} {1} 10000' .format(*[q, p]))

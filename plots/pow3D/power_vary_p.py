@@ -3,7 +3,7 @@ import os
 import sys
 from colour import Color
 import numpy as np
-import utils.get as dat
+import utils.get_pow3D as dat
 import utils.create_data as create
 
 SMALL_SIZE = 8
@@ -18,7 +18,7 @@ clean = False
 if len(sys.argv) == 2:
     clean = (sys.argv[1] == 'True')
 
-terms = ['hm', '1h', '2h']
+terms = ['hm', '1h', '2h', 'linear']
 a_s = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 qs = [0.6, 0.65, 0.707, 0.75, 0.8, 0.9]
 ps = [0., 0.1, 0.2, 0.25, 0.3, 0.35, 0.4]

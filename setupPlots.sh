@@ -10,11 +10,15 @@ cp old_scripts/pow3D/power_mmax.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/pow3D_mmax
 
-# Varying S&T parameters in halo mass function
+# 3D power spectrum:  Varying S&T parameters in halo mass function
 cp old_scripts/pow3D/power_st.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/pow3D_st
 
+# 2D power spectrum, CFHT range:  Varying S&T parameters in halo mass function
+cp old_scripts/pow2D/power_st.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/pow2D_st
 
 
 # # plots of correlation function varying cosmology
