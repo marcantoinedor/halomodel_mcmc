@@ -49,9 +49,17 @@ def cov_mat():
     return cov
 
 
-def sigm():
+def sigm_square():
     return ((cov_mat().diagonal())[:21])
 
 
-def sigp():
+def sigp_square():
     return ((cov_mat().diagonal())[21:])
+
+
+def sigm():
+    return np.sqrt(sigm_square())
+
+
+def sigp():
+    return np.sqrt(sigp_square())

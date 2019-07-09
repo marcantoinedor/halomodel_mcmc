@@ -6,21 +6,21 @@ PROGRAM halo_model
    USE string_operations
 
    IMPLICIT NONE
-   REAL :: k, power_f, mass, nk_real, name_real, kmin, kmax, a(1), mmin
+   REAL :: k, power_f, mass, nk_real, name_real, kmin, kmax, a(1), alpha
    REAL, ALLOCATABLE :: k_array(:)
    REAL, ALLOCATABLE :: pow_li(:, :), pow_2h(:, :, :, :), pow_1h(:, :, :, :), pow_hm(:, :, :, :)
    INTEGER :: icosmo, ihm, field(1), i, j, nf
    INTEGER :: nk, name
-   CHARACTER(len=256) :: fext, output, input, term1, term2, term3, term4, mmin_str, fbase, axis
+   CHARACTER(len=256) :: fext, output, input, term1, term2, term3, term4, alpha_str, fbase, axis
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
    LOGICAL :: verbose2
 
 !   Integration domain : to modify to find the importance of this on the power spectrum
-   ! REAL, PARAMETER :: mmin = 1e7
+   REAL, PARAMETER :: mmin = 1e7
    REAL, PARAMETER :: mmax = 1e17
-   LOGICAL, PARAMETER :: verbose = .FALSE.
-   LOGICAL, PARAMETER :: response = .FALSE.
+   LOGICAL, PARAMETER :: verbose = .TRUE.
+   LOGICAL, PARAMETER :: response = .TRUE.
 
    ! Assigns the cosmological model
    icosmo = 1
@@ -30,8 +30,9 @@ PROGRAM halo_model
    ihm = 3
    CALL assign_halomod(ihm, hmod, verbose)
 
-   CALL get_command_argument(1, mmin_str)
-   read (mmin_str, '(f10.0)') mmin
+   CALL get_command_argument(1, alpha_str)
+   read (alpha_str, '(f10.0)') hmod%Amp_mf
+   WRITE (*, *) hmod%Amp_mf
    ! Set number of k points and k range (log spaced)
    nk = 128
    kmin = 1e-3
@@ -42,7 +43,7 @@ PROGRAM halo_model
    ! most relevant redshift for CFHTLenS
    a = 1./(1 + 0.7)
 
-   CALL init_halomod(mmin, mmax, a(1), hmod, cosm, verbose)
+   CALL init_halomod(alpha, mmax, a(1), hmod, cosm, verbose)
 
    ! Allocate array for power spectrum
    ALLOCATE (pow_li(nk, 1), pow_2h(1, 1, nk, 1), pow_1h(1, 1, nk, 1), pow_hm(1, 1, nk, 1))
@@ -52,8 +53,8 @@ PROGRAM halo_model
    nf = 1
    CALL calculate_HMx_a(field, nf, k_array, nk, pow_li(:, 1), pow_2h(:, :, :, 1), pow_1h(:, :, :, 1), pow_hm(:, :, :, 1), hmod, cosm, verbose, response)
 
-   fbase = 'data/mmin='
-   fbase = TRIM(fbase)//TRIM(mmin_str)
+   fbase = 'data/alpha='
+   fbase = TRIM(fbase)//TRIM(alpha_str)
 
    axis = '/k.dat'
    term1 = '1h.dat'

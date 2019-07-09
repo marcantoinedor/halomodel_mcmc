@@ -132,7 +132,34 @@ def get_x_axis_mmin():
 
 
 def get_column_mmin(term, mmin):
-    data = open("data/mmin={0}/pow_{1}.dat" .format(*[mmin, term]), "r")
+    data = open("data/mmin={0}/power_{1}.dat" .format(*[mmin, term]), "r")
+    lines = data.readlines()
+    data.close()
+    column = []
+    for j in range(len(lines)):
+        column.append(float(lines[j]))
+    return column
+
+
+def get_x_axis_alpha():
+    alpha = 1.0
+    term = 'hm'
+    create.power3D_alpha([alpha])
+    data = open("data/alpha={0}/power_{1}.dat" .format(*[alpha, term]), "r")
+
+    lines = data.readlines()
+    data.close()
+    x_axis = []
+    for j in range(1, len(lines)-1):
+        line = lines[j].split('       ')[1]
+        x_axis.append(float(line.split('    ')[0]))
+    line = lines[len(lines)-1].split('      ')[1]
+    x_axis.append(float(line.split('    ')[0]))
+    return x_axis
+
+
+def get_column_alpha(term, alpha):
+    data = open("data/alpha={0}/power_{1}.dat" .format(*[alpha, term]), "r")
     lines = data.readlines()
     data.close()
     column = []

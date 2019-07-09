@@ -30,3 +30,31 @@ def get_data_st(q, p):
         value = lines[j].split('        ')[1]
         column.append(float(value.lower()))
     return column
+
+
+def get_x_axis_alpha(l_length):
+    create.power_2D_alpha([1.0], l_length)
+    x_axis = []
+    data = open('data/alpha=1.0/power2D.dat')
+    lines = data.readlines()
+    data.close()
+    for j in range(0, len(lines)):
+        value = lines[j].split('  ')[1]
+        x_axis.append(float(value.lower()))
+    return x_axis
+
+
+def get_data_alpha(alpha):
+    '''
+    float -> list
+    returns the column of data
+    '''
+
+    data = open("data/alpha={0}/power2D.dat" .format(alpha), "r")
+    lines1 = data.readlines()
+    data.close()
+    column1 = []
+    for j in range(len(lines1)):
+        value1 = lines1[j].split('        ')[1]
+        column1.append(float(value1.lower()))
+    return column1
