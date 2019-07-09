@@ -30,13 +30,7 @@ PROGRAM halo_model
    ihm = 3
    CALL assign_halomod(ihm, hmod, verbose)
 
-   CALL get_command_argument(1, q_str)
-   read (q_str, '(f10.0)') hmod%ST_q
-
-   CALL get_command_argument(2, p_str)
-   read (p_str, '(f10.0)') hmod%ST_p
-
-   CALL get_command_argument(3, mmin_str)
+   CALL get_command_argument(1, mmin_str)
    read (mmin_str, '(f10.0)') mmin
    ! Set number of k points and k range (log spaced)
    nk = 128

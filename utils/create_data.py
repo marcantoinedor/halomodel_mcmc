@@ -1,19 +1,19 @@
 import os
 
 
-def power3D_mmax(mmaxs, clean=False):
+def power3D_mmin(mmins, clean=False):
 
-    if mmaxs == []:
-        mmaxs = ['1e17', '5e16', '5e15', '2.5e15', '1e15', '5e14', '1e14', '1e13', '1e12', '1e11']
+    if mmins == []:
+        mmins = ['1e17', '5e16', '5e15', '2.5e15', '1e15', '5e14', '1e14', '1e13', '1e12', '1e11']
 
-    for mmax in mmaxs:
-        if (not os.path.isfile("data/mmax{0}/power_hm.dat" .format(mmax))) or clean:
-            os.system("mkdir -p data/mmax{0}" .format(mmax))
-            print("Creating data for mmax={0}" .format(mmax))
-            if mmax[0] == 'e':
-                os.system("./bin/plots/pow3D_mmax 1{0}" .format(mmax))
+    for mmin in mmins:
+        if (not os.path.isfile("data/mmin{0}/power_hm.dat" .format(mmin))) or clean:
+            os.system("mkdir -p data/mmin{0}" .format(mmin))
+            print("Creating data for mmin={0}" .format(mmin))
+            if mmin[0] == 'e':
+                os.system("./bin/plots/pow3D_mmin 1{0}" .format(mmin))
             else:
-                os.system("./bin/plots/pow3D_mmax {0}" .format(mmax))
+                os.system("./bin/plots/pow3D_mmin {0}" .format(mmin))
 
 
 def power_3D_st(q, p, clean=False):
@@ -38,3 +38,15 @@ def findNa(na, clean=False):
         os.system('mkdir -p data/na={0}' .format(na))
         print("Creating data na={0}" .format(na))
         os.system('./bin/opt/findNa {0}' .format(na))
+
+
+def power3D_mmin(mmins, clean=False):
+
+    if mmins == []:
+        mmins = ['1e7', '1e8', '1e9', '1e10', '1e11', '1e12', '1e13', '1e14', '1e15']
+
+    for mmin in mmins:
+        if (not os.path.isfile("data/mmin={0}/power_hm.dat" .format(mmin))) or clean:
+            os.system("mkdir -p data/mmin={0}" .format(mmin))
+            print("Creating data for mmin={0}" .format(mmin))
+            os.system("./bin/plots/pow3D_mmin {0}" .format(mmin))

@@ -119,56 +119,23 @@ def get_column_st(term, q, p, scale):
     return column
 
 
-def get_theta_CFHT():
-    data = open('utils/CFHT.dat', "r")
+def get_x_axis_mmin():
+    create.power3D_mmin(['1e7'])
+    x_axis = []
+    data = open('data/mmin=1e7/k.dat', "r")
     lines = data.readlines()
     data.close()
-    thetas = []
-    for j in range(1, len(lines)):
-        line = lines[j].split('    ')[0]
-        thetas.append(float(line))
-    return thetas
+
+    for j in range(len(lines)):
+        x_axis.append(float(lines[j]))
+    return x_axis
 
 
-def get_xip_CFHT():
-    data = open('utils/CFHT.dat', "r")
+def get_column_mmin(term, mmin):
+    data = open("data/mmin={0}/pow_{1}.dat" .format(*[mmin, term]), "r")
     lines = data.readlines()
     data.close()
-    xips = []
-    for j in range(1, len(lines)):
-        line = lines[j].split('    ')[1]
-        xips.append(float(line))
-    return xips
-
-
-def get_xim_CFHT():
-    data = open('utils/CFHT.dat', "r")
-    lines = data.readlines()
-    data.close()
-    xims = []
-    for j in range(1, len(lines)):
-        line = lines[j].split('    ')[3]
-        xims.append(float(line))
-    return xims
-
-
-def get_sigm_CFHT():
-    data = open('utils/CFHT.dat', "r")
-    lines = data.readlines()
-    data.close()
-    sigms = []
-    for j in range(1, len(lines)):
-        line = lines[j].split('    ')[2]
-        sigms.append(sqrt(float(line)))
-    return sigms
-
-
-def get_sigp_CFHT():
-    data = open('utils/CFHT.dat', "r")
-    lines = data.readlines()
-    data.close()
-    sigps = []
-    for j in range(1, len(lines)):
-        line = lines[j].split('    ')[4]
-        sigps.append(sqrt(float(line)))
-    return sigps
+    column = []
+    for j in range(len(lines)):
+        column.append(float(lines[j]))
+    return column

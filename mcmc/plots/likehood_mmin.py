@@ -10,7 +10,7 @@ computes = False
 icosmo = int(sys.argv[1])
 icosmos = [1, 4, 42]
 index = icosmos.index(icosmo)
-cosmos = ['Boring', 'WMAP9', 'Planck 2018']
+cosmos = ['Fiducial', 'WMAP9', 'Planck 2018']
 ihm = 3
 mmin_st = 14.0
 

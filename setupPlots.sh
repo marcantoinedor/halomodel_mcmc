@@ -5,10 +5,15 @@ make
 mv bin/halo_model bin/halo_model_demo
 
 
-# Implementation of relative differences in the halo_model quantities (3D power spectrum) varying mmax
+# Implementation of relative differences (mmax version) in the halo_model quantities (3D power spectrum) varying mmax
 cp old_scripts/pow3D/power_mmax.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/pow3D_mmax
+
+# Implementation of relative differences (mmin version) in the halo_model quantities (3D power spectrum) varying mmax
+cp old_scripts/pow3D/power_mmin.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/pow3D_mmin
 
 # 3D power spectrum:  Varying S&T parameters in halo mass function
 cp old_scripts/pow3D/power_st.f90 src/halo_model.f90

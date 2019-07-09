@@ -1,30 +1,24 @@
 import matplotlib.pyplot as plt
 import os
+import sys
 from colour import Color
+import utils.get_pow3D as dat
+import utils.create_data as create
+
+clean = False
+if len(sys.argv) == 2:
+    clean = (sys.argv[1] == 'clean')
 
 # x_axis
-x_axis = []
-data = open('data/mmin=1e7/k.dat', "r")
-lines = data.readlines()
-data.close()
+x_axis = dat.get_x_axis_mmin()
 
-for j in range(len(lines)):
-    x_axis.append(float(lines[j]))
-
-q_st = 0.707
-p_st = 0.3
 
 # plots
-terms = ['1h', '2h', 'hm']
-# mmins=['e17', 'e16', 'e15', 'e14', 'e13', 'e12', '5e11', 'e11']
+terms = ['1h', '2h', 'hm', 'linear']
 mmins = ['1e7', '1e8', '1e9', '1e10', '1e11', '1e12', '1e13', '1e14', '1e15']
 
-clean = True
-# Create data if it doesn't exist
-for mmin in mmins:
-    if clean:
-        os.system('rm -rf data/mmin={0}' .format(mmin))
-    os.system("python3 utils/create_data_mmin.py {0} {1} {2}" .format(*[q_st, p_st, mmin]))
+# Create data
+create.power3D_mmin(mmins, clean=clean)
 
 # colors for the plot
 begin_color = Color("blue")
@@ -37,18 +31,8 @@ for term in terms:
     datas = []
 
     for mmin in mmins:
-        data = open("data/mmin={0}/pow_{1}.dat" .format(*[mmin, term]), "r")
-        lines = data.readlines()
-        data.close()
-
-        # parsing data
-
-        column = []
-        for j in range(len(lines)):
-            column.append(float(lines[j]))
-
+        column = dat.get_column_mmin(term, mmin)
         datas.append(column)
-
         # plotting
         plt.figure(1)
 
@@ -66,7 +50,6 @@ for term in terms:
         if index == 0:
             plt.plot(x_axis, [datas[0][i] for i in range(len(datas[0]))], color="blue", linestyle='dashed', label='$Mmin=1e7$')
             plt.legend(bbox_to_anchor=(1.05, 1), loc=3, fontsize='x-small')
-            # plt.legend(loc=4, fontsize='x-small')
 
         if mmin != '1e7':
             plt.subplot(212)
@@ -78,12 +61,10 @@ for term in terms:
             plt.ylabel('$R(\Delta^2 (k))$')
             plt.plot(x_axis, [abs(column[i] - datas[0][i])/datas[0][i] for i in range(len(datas[0]))], color=colors[index].rgb, label='$Mmin=${0}' .format(mmin))
             plt.legend(bbox_to_anchor=(1.05, 1), loc=3, fontsize='x-small')
-        # plt.title('Relative difference of {0} term' .format(term))
         index += 1
-    # plt.title('Relative difference of {0} term in power spectrum between infinite integral and finite integral' .format(term))
 
     os.system("mkdir -p figures/differences_mmin")
     plt.figure(1).set_size_inches((13, 9), forward=False)
-    plt.savefig('figures/differences_mmin/{0}.png' .format(term), dpi=1000, bbox_inches='tight')
+    plt.savefig('figures/differences_mmin/{0}.png' .format(term), dpi=200, bbox_inches='tight')
     plt.clf()
     # plt.show()

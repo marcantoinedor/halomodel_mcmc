@@ -14,7 +14,7 @@ plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
 
 icosmos = [1, 4, 42]
 ihm = 3
-cosmos = ['Boring', 'WMAP9', 'Planck 2018']
+cosmos = ['Fiducial', 'WMAP9', 'Planck 2018']
 
 clean = False
 q_st = 0.707
