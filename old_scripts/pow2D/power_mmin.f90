@@ -7,18 +7,17 @@ PROGRAM halo_model
    USE string_operations
 
    IMPLICIT NONE
-   REAL ::power_f, mass, l_length_real, name_real, kmin, kmax, amin, amax, lmin, lmax, mmin, mmin_log
+   REAL ::power_f, mass, l_length_real, kmin, kmax, amin, amax, lmin, lmax, mmin
    REAL, ALLOCATABLE :: k(:), l_array(:), a(:), Cl(:)
    REAL, ALLOCATABLE :: pow_li(:, :), pow_2h(:, :, :, :), pow_1h(:, :, :, :), pow_hm(:, :, :, :)
    INTEGER :: icosmo, ihm, field(1), i, j, nf, ix(2)
    INTEGER :: nk, na, l_length, name
-   CHARACTER(len=256) :: fbase, fbase2, fext, output, p_str, q_str, l_length_str, a_str, l_str, mmin_str, ext
+   CHARACTER(len=256) :: fbase, fbase2, fext, output, l_length_str, mmin_str
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
    LOGICAL :: verbose2
 
 !   Integration domain : to modify to find the importance of this on the power spectrum
-   ! REAL, PARAMETER :: mmin = 1e7
    REAL, PARAMETER :: mmax = 1e17
    LOGICAL, PARAMETER :: verbose = .FALSE.
    LOGICAL, PARAMETER :: response = .FALSE.
@@ -31,20 +30,13 @@ PROGRAM halo_model
    ihm = 3
    CALL assign_halomod(ihm, hmod, verbose)
 
-   CALL get_command_argument(1, q_str)
-   read (q_str, '(f10.0)') hmod%ST_q
+   CALL get_command_argument(1, mmin_str)
+   read (mmin_str, '(f10.0)') mmin
 
-   CALL get_command_argument(2, p_str)
-   read (p_str, '(f10.0)') hmod%ST_p
-
-   CALL get_command_argument(3, l_length_str)
+   CALL get_command_argument(2, l_length_str)
    read (l_length_str, '(f10.0)') l_length_real
 
    l_length = INT(l_length_real)
-
-   CALL get_command_argument(4, mmin_str)
-   read (mmin_str, '(f10.0)') mmin_log
-   mmin = exp(log(10.)*mmin_log)
 
    ! Set number of k points and k range (log spaced)
    nk = 128
@@ -90,16 +82,10 @@ PROGRAM halo_model
 
    CALL xpow_pka(ix, l_array, Cl, l_length, k, a, pow_hm, nk, na, cosm)
 
-   fbase = 'data/q='
-   fbase2 = 'p='
-   fbase = trim(fbase)//trim(q_str)
-   fbase2 = trim(fbase2)//trim(p_str)
-   fbase = trim(fbase)//trim(fbase2)
-   fext = '/pow2D_mmin='
-   ext = '.dat'
+   fbase = 'data/mmin='
+   fext = '/power2D.dat'
+   fbase = TRIM(fbase)//TRIM(mmin_str)
    output = TRIM(fbase)//TRIM(fext)
-   output = TRIM(output)//TRIM(mmin_str)
-   output = TRIM(output)//TRIM(ext)
    OPEN (1, file=output)
    DO j = 1, l_length
       WRITE (1, *) l_array(j), Cl(j)

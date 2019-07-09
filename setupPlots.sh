@@ -29,6 +29,11 @@ cp old_scripts/pow2D/power_st.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/pow2D_st
 
+# 2D power spectrum, CFHT range:  Varying mmin parameter in halo mass function
+cp old_scripts/pow2D/power_mmin.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/pow2D_mmin
+
 # 2D power spectrum, CFHT range:  Varying alpha parameter in halo mass function
 cp old_scripts/pow2D/power_alpha.f90 src/halo_model.f90
 make
