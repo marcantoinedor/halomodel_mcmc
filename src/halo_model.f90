@@ -7,12 +7,12 @@ PROGRAM halo_model
    USE string_operations
 
    IMPLICIT NONE
-   REAL ::power_f, mass, l_length_real, name_real, kmin, kmax, amin, amax, lmin, lmax
+   REAL ::power_f, mass, l_length_real, name_real, kmin, kmax, amin, amax, lmin, lmax, na_real
    REAL, ALLOCATABLE :: k(:), l_array(:), a(:), Cl(:)
    REAL, ALLOCATABLE :: pow_li(:, :), pow_2h(:, :, :, :), pow_1h(:, :, :, :), pow_hm(:, :, :, :)
    INTEGER :: icosmo, ihm, field(1), i, j, nf, ix(2)
    INTEGER :: nk, na, l_length, name
-   CHARACTER(len=256) :: fbase, fbase2, fext, output, p_str, q_str, l_length_str, a_str, l_str
+   CHARACTER(len=256) :: fbase, fbase2, fext, output, p_str, q_str, l_length_str, a_str, l_str, na_str
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
    LOGICAL :: verbose2
@@ -31,16 +31,10 @@ PROGRAM halo_model
    ihm = 3
    CALL assign_halomod(ihm, hmod, verbose)
 
-   CALL get_command_argument(1, q_str)
-   read (q_str, '(f10.0)') hmod%ST_q
+   CALL get_command_argument(1, na_str)
+   read (na_str, '(f10.0)') na_real
 
-   CALL get_command_argument(2, p_str)
-   read (p_str, '(f10.0)') hmod%ST_p
-
-   CALL get_command_argument(3, l_length_str)
-   read (l_length_str, '(f10.0)') l_length_real
-
-   l_length = INT(l_length_real)
+   na = INT(na_real)
 
    ! Set number of k points and k range (log spaced)
    nk = 128
@@ -53,14 +47,13 @@ PROGRAM halo_model
    ! In lensing, we consider redshift between 0 and 3
    amin = 0.25
    amax = 1.0
-   na = 10
 
    CALL fill_array(amin, amax, a, na)
 
    ! Set number of k points and k range (log spaced)
-   lmin = 1e0
+   lmin = 1.
    lmax = 1e4
-
+   l_length = 100
    CALL fill_array(lmin, lmax, l_array, l_length)
 
    ! Allocate output Cl
@@ -86,17 +79,14 @@ PROGRAM halo_model
 
    CALL xpow_pka(ix, l_array, Cl, l_length, k, a, pow_hm, nk, na, cosm)
 
-   fbase = 'data/q='
-   fbase2 = 'p='
-   fbase = trim(fbase)//trim(q_str)
-   fbase2 = trim(fbase2)//trim(p_str)
-   fbase = trim(fbase)//trim(fbase2)
-   fext = '/power2D.dat'
+   fbase = 'data/na='
+   fbase = trim(fbase)//trim(na_str)
+   fext = '/pow2D.dat'
    output = TRIM(fbase)//TRIM(fext)
 
    OPEN (1, file=output)
    DO j = 1, l_length
-      WRITE (1, *) l_array(j), Cl(j)
+      WRITE (1, *) Cl(j)
    END DO
 
 END PROGRAM

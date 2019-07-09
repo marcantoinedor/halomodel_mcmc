@@ -2,13 +2,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 from colour import Color
 import os
+import sys
+import utils.create_data as create
+import utils.get_opt as dat
+
+
+clean = False
+if len(sys.argv) == 2:
+    clean = (sys.argv[1] == 'clean')
 
 nas = [4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18]
 ref = 100
-refs = []
 
-pow2D = []
-
+# l axis, the same as in the fortran code
 lmin = 1
 lmax = 1e4
 nl = 100
@@ -16,26 +22,18 @@ nl = 100
 ls = np.linspace(np.log(lmin), np.log(lmax), nl)
 ls = np.exp(ls)
 
-os.system('mkdir -p data/na={0}' .format(ref))
-os.system('./bin/halo_model_findNa {0}' .format(ref))
-
-data = open("data/na={0}/pow2D.dat" .format(ref), "r")
-lines = data.readlines()
-data.close()
-refs = [float(val) for val in lines]
+# Compute ref
+create.findNa(ref, clean=clean)
+refs = dat.get_Na(ref)
 
 begin_color = Color("blue")
 colors = list(begin_color.range_to(Color("green"), len(nas)))
 
 i = 0
 for na in nas:
-    os.system('mkdir -p data/na={0}' .format(na))
-    os.system('./bin/halo_model_findNa {0}' .format(na))
 
-    data = open("data/na={0}/pow2D.dat" .format(na), "r")
-    lines = data.readlines()
-    data.close()
-    pow2D = [float(val) for val in lines]
+    create.findNa(na, clean=clean)
+    pow2D = dat.get_Na(na)
 
     # Plotting
     plt.figure(1)
@@ -44,13 +42,12 @@ for na in nas:
     i += 1
 
 plt.figure(1).set_size_inches((8, 8), forward=False)
-plt.title('Variation of 2D-Power in Limber integration with $n_aref$={0}' .format(ref))
-plt.xlabel("$l$")
-plt.ylabel("$(P_{2D}-P_{2Dref}) / P_{2Dref}$")
+plt.title('Variation of 2D-Power in Limber\'s integration with $n_aref$={0}' .format(ref))
+plt.xlabel("$\ell$")
+plt.ylabel("$(C_{\ell }-C_{\ell ref}) / C_{\ell ref}$")
 plt.xscale('log')
 plt.yscale('log')
-# plt.legend(bbox_to_anchor=(0.8, 1.25), loc='lower right')
 
-plt.savefig('figures/findNa.png', bbox_inches='tight')
+plt.savefig('figures/opt/findNa.png', dpi=200, bbox_inches='tight')
 
 plt.show()

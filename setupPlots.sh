@@ -20,6 +20,10 @@ cp old_scripts/pow2D/power_st.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/pow2D_st
 
+# Optimisation scripts for number of loop iterations
+cp old_scripts/opt/findNa.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/opt/findNa
 
 # # plots of correlation function varying cosmology
 # cp old_scripts/correlation/cosmo_CFHT.f90 src/halo_model

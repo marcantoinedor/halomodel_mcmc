@@ -30,3 +30,11 @@ def power_2D_st(q, p, clean=False):
         os.system('mkdir -p data/q={0}p={1}' .format(*[q, p]))
         print("Creating data q={0}, p={1}" .format(*[q, p]))
         os.system('./bin/plots/pow2D_st {0} {1} 10000' .format(*[q, p]))
+
+
+def findNa(na, clean=False):
+
+    if (not os.path.isfile("data/na={0}/pow2D.dat" .format(na))) or clean:
+        os.system('mkdir -p data/na={0}' .format(na))
+        print("Creating data na={0}" .format(na))
+        os.system('./bin/opt/findNa {0}' .format(na))
