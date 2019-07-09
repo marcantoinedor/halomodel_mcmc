@@ -7,19 +7,18 @@ PROGRAM halo_model
    USE string_operations
 
    IMPLICIT NONE
-   REAL ::power_f, mass, l_length_real, name_real, kmin, kmax, amin, amax, lmin, lmax, thmin, thmax, l_max_real, nth_real, mmin, mmin_log
+   REAL ::power_f, mass, l_length_real, name_real, kmin, kmax, amin, amax, lmin, lmax, thmin, thmax, l_max_real, mmin
    REAL, ALLOCATABLE :: k(:), l_array(:), a(:), Cl(:), th_tab(:), xi_tab(:, :)
    REAL, ALLOCATABLE :: pow_li(:, :), pow_2h(:, :, :, :), pow_1h(:, :, :, :), pow_hm(:, :, :, :)
    INTEGER :: icosmo, ihm, field(1), i, j, nf, ix(2)
-   INTEGER :: nk, na, l_length, name, l_max, nth, m
+   INTEGER :: nk, na, l_length, l_max, nth, m
    INTEGER, ALLOCATABLE :: iBessel(:)
-   CHARACTER(len=256) :: fbase, fbase2, fext1, fext3, output1, output3, p_str, q_str, l_length_str, a_str, l_str, l_max_str, input, nth_str, th_str, mmin_str, ext
+   CHARACTER(len=256) :: fbase, fbase2, fext1, fext3, output1, output3, l_max_str, input, th_str, mmin_str, ext
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
    LOGICAL :: verbose2
 
-!   Integration domain : to modify to find the importance of this on the power spectrum
-   ! REAL, PARAMETER :: mmin = 1e7
+   !   Integration domain : to modify to find the importance of this on the power spectrum
    REAL, PARAMETER :: mmax = 1e17
    LOGICAL, PARAMETER :: verbose = .FALSE.
    LOGICAL, PARAMETER :: response = .FALSE.
@@ -32,25 +31,12 @@ PROGRAM halo_model
    ihm = 3
    CALL assign_halomod(ihm, hmod, verbose)
 
-   CALL get_command_argument(1, q_str)
-   read (q_str, '(f10.0)') hmod%ST_q
+   CALL get_command_argument(1, mmin_str)
+   read (mmin_str, '(f10.0)') mmin
 
-   CALL get_command_argument(2, p_str)
-   read (p_str, '(f10.0)') hmod%ST_p
-
-   CALL get_command_argument(3, nth_str)
-   read (nth_str, '(f10.0)') nth_real
-
-   nth = INT(nth_real)
-
-   CALL get_command_argument(4, l_max_str)
+   CALL get_command_argument(2, l_max_str)
    read (l_max_str, '(f10.0)') l_max_real
-
    l_max = INT(l_max_real)
-
-   CALL get_command_argument(5, mmin_str)
-   read (mmin_str, '(f10.0)') mmin_log
-   mmin = exp(log(10.)*mmin_log)
 
    ! Set number of k points and k range (log spaced)
    nk = 128
@@ -59,7 +45,7 @@ PROGRAM halo_model
    CALL fill_array(log(kmin), log(kmax), k, nk)
    k = exp(k)
 
-! Set the number of scale factors and range (linearly spaced)
+   ! Set the number of scale factors and range (linearly spaced)
    ! In lensing, we consider redshift between 0 and 3
    amin = 0.25
    amax = 1.0
@@ -67,7 +53,7 @@ PROGRAM halo_model
 
    CALL fill_array(amin, amax, a, na)
 
-   ! Set number of k points and k range (log spaced)
+   ! Set number of l points and l range (log spaced)
    lmin = 1.
    lmax = 1e4
    l_length = 30
@@ -80,15 +66,15 @@ PROGRAM halo_model
    ! Choose lens survey tracer_CFHTLenS=4
    ix = tracer_CFHTLenS
    ! get thetas (arcmin from CFHTLenS survey)
-   input = 'utils/CFHTthetas.dat'
-
+   input = 'CFHTLenS/thetas.dat'
+   nth = 21
    ALLOCATE (th_tab(nth))
 
    OPEN (2, file=input)
    DO i = 1, nth
       READ (2, *) th_str
       READ (th_str, '(f10.0)') th_tab(i)
-      ! Converting to degrees
+      ! Converting to degrees, really important
       th_tab(i) = th_tab(i)/60
    END DO
    CLOSE (2)
@@ -112,7 +98,6 @@ PROGRAM halo_model
    CALL xpow_pka(ix, l_array, Cl, l_length, k, a, pow_hm, nk, na, cosm)
 
    l_max = INT(l_max_real)
-   ! theta parameter
    m = 2
    ALLOCATE (iBessel(m))
    iBessel(1) = 0
@@ -120,29 +105,22 @@ PROGRAM halo_model
 
    CALL calculate_angular_xi(iBessel, m, th_tab, xi_tab, nth, l_array, Cl, l_length, l_max)
 
-   fbase = 'data/q='
-   fbase2 = 'p='
-   ext = '.dat'
-   fbase = trim(fbase)//trim(q_str)
-   fbase2 = trim(fbase2)//trim(p_str)
-   fbase = trim(fbase)//trim(fbase2)
-   fext1 = '/xi1_mmin='
+   fbase = 'data/mmin='
+   fbase = TRIM(fbase)//TRIM(mmin_str)
+   fext1 = '/xi1.dat'
    output1 = TRIM(fbase)//TRIM(fext1)
-   output1 = TRIM(output1)//TRIM(mmin_str)
-   output1 = TRIM(output1)//TRIM(ext)
 
-   fext3 = '/xi3_mmin='
+   fext3 = '/xi3.dat'
    output3 = TRIM(fbase)//TRIM(fext3)
-   output3 = TRIM(output3)//TRIM(mmin_str)
-   output3 = TRIM(output3)//TRIM(ext)
 
    OPEN (1, file=output1)
    OPEN (2, file=output3)
    DO j = 1, nth
-      WRITE (1, *) th_tab(j)*60, xi_tab(1, j)
-      WRITE (2, *) th_tab(j)*60, xi_tab(2, j)
+      WRITE (1, *) xi_tab(1, j)
+      WRITE (2, *) xi_tab(2, j)
    END DO
 
    CLOSE (1)
    CLOSE (2)
+
 END PROGRAM

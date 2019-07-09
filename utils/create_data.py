@@ -93,3 +93,14 @@ def power_2D_mmin(mmins, l_length, clean=False):
             os.system("mkdir -p data/mmin={0}" .format(mmin))
             print("Creating data for mmin={0}" .format(mmin))
             os.system("./bin/plots/pow2D_mmin {0} {1}" .format(*[mmin, l_length]))
+
+
+def xi_CFHT_mmin(mmins, l_max, clean=False):
+    if mmins == []:
+        mmins = ['1e7', '1e8', '1e9', '1e10', '1e11', '1e12', '1e13', '1e14', '1e15']
+
+    for mmin in mmins:
+        if (not os.path.isfile("data/mmin={0}/xi1.dat" .format(mmin))) or clean:
+            os.system("mkdir -p data/mmin={0}" .format(mmin))
+            print("Creating data for mmin={0}" .format(mmin))
+            os.system("./bin/plots/xi_mmin {0} {1}" .format(*[mmin, l_max]))

@@ -44,7 +44,10 @@ cp old_scripts/correlation/xi_alpha.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/xi_alpha
 
-
+# Shear correlation function, CFHT range: Varying mmin parameter in halo mass function
+cp old_scripts/correlation/xi_mmin.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/xi_mmin
 
 
 # Optimisation scripts for number of loop iterations
