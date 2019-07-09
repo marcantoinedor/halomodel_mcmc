@@ -16,7 +16,7 @@ plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
 
 clean = False
 if len(sys.argv) == 2:
-    clean = (sys.argv[1] == 'True')
+    clean = (sys.argv[1] == 'clean')
 
 terms = ['hm', '1h', '2h', 'linear']
 a_s = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]

@@ -21,7 +21,7 @@ ps = [0., 0.1, 0.2, 0.25, 0.3, 0.35, 0.4]
 
 clean = False
 if len(sys.argv) == 2:
-    clean = (sys.argv[1] == 'True')
+    clean = (sys.argv[1] == 'clean')
 
 
 begin_color = Color("blue")
