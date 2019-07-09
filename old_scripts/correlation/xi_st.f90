@@ -13,7 +13,7 @@ PROGRAM halo_model
    INTEGER :: icosmo, ihm, field(1), i, j, nf, ix(2)
    INTEGER :: nk, na, l_length, name, l_max, nth, m
    INTEGER, ALLOCATABLE :: iBessel(:)
-   CHARACTER(len=256) :: fbase, fbase2, fext1, fext3, output1, output3, p_str, q_str, l_length_str, a_str, l_str, l_max_str, input, nth_str, th_str
+   CHARACTER(len=256) :: fbase, fbase2, fext1, fext3, output1, output3, p_str, q_str, l_max_str, input, th_str
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
    LOGICAL :: verbose2
@@ -38,12 +38,7 @@ PROGRAM halo_model
    CALL get_command_argument(2, p_str)
    read (p_str, '(f10.0)') hmod%ST_p
 
-   CALL get_command_argument(3, nth_str)
-   read (nth_str, '(f10.0)') nth_real
-
-   nth = INT(nth_real)
-
-   CALL get_command_argument(4, l_max_str)
+   CALL get_command_argument(3, l_max_str)
    read (l_max_str, '(f10.0)') l_max_real
 
    l_max = INT(l_max_real)
@@ -76,8 +71,8 @@ PROGRAM halo_model
    ! Choose lens survey tracer_CFHTLenS=4
    ix = tracer_CFHTLenS
    ! get thetas (arcmin from CFHTLenS survey)
-   input = 'utils/CFHTthetas.dat'
-
+   input = 'CFHTLenS/thetas.dat'
+   nth = 21
    ALLOCATE (th_tab(nth))
 
    OPEN (2, file=input)
@@ -121,17 +116,17 @@ PROGRAM halo_model
    fbase = trim(fbase)//trim(q_str)
    fbase2 = trim(fbase2)//trim(p_str)
    fbase = trim(fbase)//trim(fbase2)
-   fext1 = '/xi1_CFHT.dat'
+   fext1 = '/xi1.dat'
    output1 = TRIM(fbase)//TRIM(fext1)
 
-   fext3 = '/xi3_CFHT.dat'
+   fext3 = '/xi3.dat'
    output3 = TRIM(fbase)//TRIM(fext3)
 
    OPEN (1, file=output1)
    OPEN (2, file=output3)
    DO j = 1, nth
-      WRITE (1, *) th_tab(j)*60, xi_tab(1, j)
-      WRITE (2, *) th_tab(j)*60, xi_tab(2, j)
+      WRITE (1, *) xi_tab(1, j)
+      WRITE (2, *) xi_tab(2, j)
    END DO
 
    CLOSE (1)

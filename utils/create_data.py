@@ -104,3 +104,10 @@ def xi_CFHT_mmin(mmins, l_max, clean=False):
             os.system("mkdir -p data/mmin={0}" .format(mmin))
             print("Creating data for mmin={0}" .format(mmin))
             os.system("./bin/plots/xi_mmin {0} {1}" .format(*[mmin, l_max]))
+
+
+def xi_CFHT_st(q, p, l_max, clean=False):
+    if (not os.path.isfile('data/q={0}p={1}/xi1.dat' .format(*[q, p]))) or clean:
+        print("Creating data for q={0} and p={1}" .format(*[q, p]))
+        os.system('mkdir -p data/q={0}p={1}' .format(*[q, p]))
+        os.system('./bin/plots/xi_st {0} {1} {2}' .format(*[q, p, l_max]))

@@ -71,3 +71,38 @@ def get_xim_mmin(mmin):
     for line in lines3:
         column3.append(float(line.lower()))
     return column3
+
+
+def get_x_axis_st():
+    # it is simply CFHT data
+    return dat.thetas()
+
+
+def get_xip_st(q, p):
+    '''
+    float -> list
+    returns the column of data
+    '''
+
+    data = open('data/q={0}p={1}/xi1.dat' .format(*[q, p]))
+    lines1 = data.readlines()
+    data.close()
+    column1 = []
+    for line in lines1:
+        column1.append(float(line.lower()))
+    return column1
+
+
+def get_xim_st(q, p):
+    '''
+    float -> list
+    returns the column of data
+    '''
+
+    data = open('data/q={0}p={1}/xi3.dat' .format(*[q, p]))
+    lines3 = data.readlines()
+    data.close()
+    column3 = []
+    for line in lines3:
+        column3.append(float(line.lower()))
+    return column3
