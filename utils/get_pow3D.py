@@ -22,7 +22,7 @@ def get_x_axis_mmax():
 def get_scale_parameter():
     mmax = '1e17'
     term = 'hm'
-    os.system("python3 utils/create_data_mmax.py {0}" .format(mmax))
+    create.power3D_mmax([mmax])
     data = open("data/mmax{0}/power_{1}.dat" .format(*[mmax, term]), "r")
 
     lines = data.readlines()
