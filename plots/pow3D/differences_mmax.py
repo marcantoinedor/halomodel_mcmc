@@ -66,7 +66,7 @@ for parameter in scale:
 
         os.system("mkdir -p figures/differences_mmax/a={0}" .format(parameter))
         plt.figure(1).set_size_inches((13, 9), forward=False)
-        plt.savefig('figures/differences_mmax/a={0}/{1}.png' .format(*[parameter, term]), dpi=300, bbox_inches='tight')
+        plt.savefig('figures/differences_mmax/a={0}/{1}.png' .format(*[parameter, term]), dpi=200, bbox_inches='tight')
         # plt.show()
         plt.clf()
     print('Scale parameter = {0}' .format(parameter))

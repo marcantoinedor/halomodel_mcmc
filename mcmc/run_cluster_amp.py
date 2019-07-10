@@ -3,7 +3,7 @@ import scipy.optimize as op
 import numpy as np
 import sys
 import correlation
-import CFHTLenS.get as data
+import CFHTLenS.get as dat
 import os
 
 
@@ -37,20 +37,20 @@ print("Loading data")
 
 # Length of CFHT thetas data
 N = 21
-x = data.thetas()
+x = dat.thetas()
 
 # Data from CFHTLenS survey
-xip = data.xip()
-xim = data.xim()
+xip = dat.xip()
+xim = dat.xim()
 y = xip.copy()
 y = np.append(y, xim)
 
 # Considering the real covariance matrix and all kind of errors
-yerr = data.cov_mat()
+yerr = dat.cov_mat()
 yerrinv = np.linalg.inv(yerr)
 det = np.linalg.det(yerr)
-errp = data.sigp()
-errm = data.sigm()
+errp = dat.sigp()
+errm = dat.sigm()
 
 
 def lnlike(param, y, invcov, verbose=False):

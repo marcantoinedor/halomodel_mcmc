@@ -58,7 +58,7 @@ det = np.linalg.det(yerr)
 errp = dataCFHT.sigp()
 errm = dataCFHT.sigm()
 
-chain = np.load('mcmc/results/{1}/chain{0}.npy' .format(*[icosmo, usedData]))
+chain = np.load('mcmc/results/{1}/chain_st{0}.npy' .format(*[icosmo, usedData]))
 
 otherchain = chain.reshape((nwalkers, steps, ndim))
 
@@ -87,7 +87,7 @@ plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_+$')
 
 
-plt.savefig('mcmc/figures/{1}/xip{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
+plt.savefig('mcmc/figures/{1}/xip{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
 plt.figure(2).set_size_inches((8, 8), forward=False)
 plt.title(
     "Correlation function $\\xi_-$")
@@ -100,7 +100,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_-$')
-plt.savefig('mcmc/figures/{1}/xim{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
+plt.savefig('mcmc/figures/{1}/xim{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
 
 # plots of the sampler
 plt.figure(3)
@@ -111,10 +111,10 @@ for i in range(nwalkers):
     ax2.plot(chain[i, :, 1], color='black')
 
 plt.figure(3)
-plt.savefig("mcmc/figures/{1}/mcmc_walkers{0}.png" .format(*[icosmo, usedData]), dpi=300)
+plt.savefig("mcmc/figures/{1}/mcmc_walkers{0}.png" .format(*[icosmo, usedData]), dpi=200)
 
 fig = corner.corner(samples, labels=["$q$", "$p$"], truths=[q_ml, p_ml])
-fig.savefig("mcmc/figures/{1}/mcmc_contours{0}.png" .format(*[icosmo, usedData]), dpi=300)
+fig.savefig("mcmc/figures/{1}/mcmc_contours{0}.png" .format(*[icosmo, usedData]), dpi=200)
 
 print("Basic plots created")
 
@@ -168,7 +168,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_+$')
-plt.savefig('mcmc/figures/{1}/xip_percentile{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
+plt.savefig('mcmc/figures/{1}/xip_percentile{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
 
 
 plt.figure(8).set_size_inches((8, 8), forward=False)
@@ -189,7 +189,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_-$')
-plt.savefig('mcmc/figures/{1}/xim_percentile{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
+plt.savefig('mcmc/figures/{1}/xim_percentile{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
 
 if not others:
     plt.show()
@@ -231,9 +231,9 @@ for q, p in samples[np.random.randint(len(samples), size=nbr)]:
 
 
 plt.figure(5)
-plt.savefig('mcmc/figures/{1}/xip_var{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
+plt.savefig('mcmc/figures/{1}/xip_var{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
 plt.figure(6)
-plt.savefig('mcmc/figures/{1}/xim_var{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=300)
+plt.savefig('mcmc/figures/{1}/xim_var{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
 
 
 plt.show(fig)

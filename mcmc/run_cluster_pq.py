@@ -138,7 +138,7 @@ sampler = emcee.EnsembleSampler(
 sampler.run_mcmc(pos, steps)
 
 # save data
-np.save('mcmc/results/CFHT/chain{0}.npy' .format(icosmo), sampler.chain)
+np.save('mcmc/results/CFHT/chain_st{0}.npy' .format(icosmo), sampler.chain)
 
 data = open("mcmc/results/CFHT/acceptanceFraction{0}.txt" .format(icosmo), "w")
 data.write("Mean acceptance fraction: {0:.3f}" .format(np.mean(sampler.acceptance_fraction)))
