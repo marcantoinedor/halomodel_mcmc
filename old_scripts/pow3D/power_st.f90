@@ -26,7 +26,6 @@ PROGRAM halo_model
    icosmo = 1
    CALL assign_cosmology(icosmo, cosm, verbose)
    CALL init_cosmology(cosm)
-   CALL print_cosmology(cosm)
 
    ! Assign the halo model
    ihm = 3

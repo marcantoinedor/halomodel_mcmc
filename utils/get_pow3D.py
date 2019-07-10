@@ -143,18 +143,14 @@ def get_column_mmin(term, mmin):
 
 def get_x_axis_alpha():
     alpha = 1.0
-    term = 'hm'
     create.power3D_alpha([alpha])
-    data = open("data/alpha={0}/power_{1}.dat" .format(*[alpha, term]), "r")
+    data = open("data/alpha={0}/k.dat" .format(alpha), "r")
 
     lines = data.readlines()
     data.close()
     x_axis = []
-    for j in range(1, len(lines)-1):
-        line = lines[j].split('       ')[1]
-        x_axis.append(float(line.split('    ')[0]))
-    line = lines[len(lines)-1].split('      ')[1]
-    x_axis.append(float(line.split('    ')[0]))
+    for line in lines:
+        x_axis.append(float(line.lower()))
     return x_axis
 
 
