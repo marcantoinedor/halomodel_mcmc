@@ -77,9 +77,9 @@ if optimize:
     nll = lambda *args: -lnlike(*args)
     # Best to use log-parameters I think, thanks to the living spaces of p and q
     result = op.minimize(nll, [alpha_st],
-                         args=(y, yerrinv, True))
+                         args=(y, yerrinv, True), method='Nelder-Mead', tol=1e-6)
     alpha_ml = result["x"][0]
-    print("Best fit is alpha={0}" .format(alpha))
+    print("Best fit is alpha={0}" .format(alpha_ml))
     data = open("mcmc/results/CFHT/alpha{0}.txt" .format(icosmo), "w")
     data.write("alpha={0}" .format(alpha_ml))
     data.close()

@@ -78,7 +78,7 @@ if optimize:
     nll = lambda *args: -lnlike(*args)
     # Best to use log-parameters I think, thanks to the living spaces of p and q
     result = op.minimize(nll, [mmin_st],
-                         args=(y, yerrinv, True))
+                         args=(y, yerrinv, True), method='Nelder-Mead', tol=1e-6)
     mmin_ml = result["x"][0]
     print("Best fit is mmin={0}" .format(mmin_ml))
     data = open("mcmc/results/CFHT/mmin{0}.txt" .format(icosmo), "w")
