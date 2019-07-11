@@ -162,3 +162,40 @@ def get_column_alpha(term, alpha):
     for j in range(len(lines)):
         column.append(float(lines[j]))
     return column
+
+
+def get_column_ihm(term, ihm, iscale):
+    '''
+    str * str * int -> list
+    giving term in ['hm', '1h', '2h', 'linear'], ihm and scale parameter index, returns the column of data
+    '''
+
+    data = open("data/ihm={0}/power_{1}.dat" .format(*[ihm, term]), "r")
+    lines = data.readlines()
+    data.close()
+
+    # parsing data
+    column = []
+    for j in range(1, len(lines)-1):
+        line = lines[j].split('       ')[1]
+        column.append(float(line.split('    ')[iscale]))
+    line = lines[len(lines)-1].split('      ')[1]
+    column.append(float(line.split('    ')[iscale]))
+    return column
+
+
+def get_x_axis_ihm(clean=False):
+    ihm = 1
+    term = 'hm'
+    create.power_3D_ihm([ihm], clean=clean)
+    data = open("data/ihm={0}/power_{1}.dat" .format(*[ihm, term]), "r")
+
+    lines = data.readlines()
+    data.close()
+    x_axis = []
+    for j in range(1, len(lines)-1):
+        line = lines[j].split('       ')[1]
+        x_axis.append(float(line.split('    ')[0]))
+    line = lines[len(lines)-1].split('      ')[1]
+    x_axis.append(float(line.split('    ')[0]))
+    return x_axis

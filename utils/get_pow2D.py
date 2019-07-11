@@ -86,3 +86,31 @@ def get_data_mmin(mmin):
         value1 = lines1[j].split('        ')[1]
         column1.append(float(value1.lower()))
     return column1
+
+
+def get_data_ihm(ihm):
+    '''
+    float -> list
+    returns the column of data
+    '''
+
+    data = open("data/ihm={0}/power2D.dat" .format(ihm), "r")
+    lines1 = data.readlines()
+    data.close()
+    column1 = []
+    for j in range(len(lines1)):
+        value1 = lines1[j].split('        ')[1]
+        column1.append(float(value1.lower()))
+    return column1
+
+
+def get_x_axis_ihm(l_length):
+    create.power_2D_ihm([1], l_length)
+    x_axis = []
+    data = open('data/ihm=1/power2D.dat')
+    lines = data.readlines()
+    data.close()
+    for j in range(len(lines)):
+        value = lines[j].split('  ')[1]
+        x_axis.append(float(value.lower()))
+    return x_axis

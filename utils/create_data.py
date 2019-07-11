@@ -111,3 +111,36 @@ def xi_CFHT_st(q, p, l_max, clean=False):
         print("Creating data for q={0} and p={1}" .format(*[q, p]))
         os.system('mkdir -p data/q={0}p={1}' .format(*[q, p]))
         os.system('./bin/plots/xi_st {0} {1} {2}' .format(*[q, p, l_max]))
+
+
+def power_3D_ihm(ihms, clean=False):
+    if ihms == []:
+        ihms = [1, 3]
+
+    for ihm in ihms:
+        if (not os.path.isfile("data/ihm={0}/power_hm.dat" .format(ihm))) or clean:
+            os.system("mkdir -p data/ihm={0}" .format(ihm))
+            print("Creating data for ihm={0}" .format(ihm))
+            os.system("./bin/plots/pow3D_ihm {0}" .format(ihm))
+
+
+def power_2D_ihm(ihms, l_length, clean=False):
+    if ihms == []:
+        ihms = [1, 3]
+
+    for ihm in ihms:
+        if (not os.path.isfile("data/ihm={0}/power2D.dat" .format(ihm))) or clean:
+            os.system("mkdir -p data/ihm={0}" .format(ihm))
+            print("Creating data for ihm={0}" .format(ihm))
+            os.system("./bin/plots/pow2D_ihm {0} {1}" .format(*[ihm, l_length]))
+
+
+def xi_CFHT_ihm(ihms, l_max, clean=False):
+    if ihms == []:
+        ihms = [1, 3]
+
+    for ihm in ihms:
+        if (not os.path.isfile("data/ihm={0}/xi1.dat" .format(ihm))) or clean:
+            os.system("mkdir -p data/ihm={0}" .format(ihm))
+            print("Creating data for ihm={0}" .format(ihm))
+            os.system("./bin/plots/xi_ihm {0} {1}" .format(*[ihm, l_max]))

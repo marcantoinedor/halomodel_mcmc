@@ -24,6 +24,11 @@ cp old_scripts/pow3D/power_st.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/pow3D_st
 
+# 3D power spectrum:  Varying halo code
+cp old_scripts/pow3D/power_ihm.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/pow3D_ihm
+
 # 2D power spectrum, CFHT range:  Varying S&T parameters in halo mass function
 cp old_scripts/pow2D/power_st.f90 src/halo_model.f90
 make
@@ -39,6 +44,11 @@ cp old_scripts/pow2D/power_alpha.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/pow2D_alpha
 
+# 2D power spectrum, CFHT range:  Varying halo code
+cp old_scripts/pow2D/power_ihm.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/pow2D_ihm
+
 # Shear correlation function, CFHT range: Varying alpha parameter in halo mass function
 cp old_scripts/correlation/xi_alpha.f90 src/halo_model.f90
 make
@@ -53,6 +63,11 @@ mv bin/halo_model bin/plots/xi_mmin
 cp old_scripts/correlation/xi_st.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/xi_st
+
+# Shear correlation function, CFHT range: Varying S&T parameters in halo mass function
+cp old_scripts/correlation/xi_ihm.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/xi_ihm
 
 # Optimisation scripts for number of loop iterations
 cp old_scripts/opt/findNa.f90 src/halo_model.f90

@@ -106,3 +106,38 @@ def get_xim_st(q, p):
     for line in lines3:
         column3.append(float(line.lower()))
     return column3
+
+
+def get_x_axis_ihm():
+    # it is simply CFHT data
+    return dat.thetas()
+
+
+def get_xip_ihm(ihm):
+    '''
+    float -> list
+    returns the column of data
+    '''
+
+    data = open('data/ihm={0}/xi1.dat' .format(ihm))
+    lines1 = data.readlines()
+    data.close()
+    column1 = []
+    for line in lines1:
+        column1.append(float(line.lower()))
+    return column1
+
+
+def get_xim_ihm(ihm):
+    '''
+    float -> list
+    returns the column of data
+    '''
+
+    data = open('data/ihm={0}/xi3.dat' .format(ihm))
+    lines3 = data.readlines()
+    data.close()
+    column3 = []
+    for line in lines3:
+        column3.append(float(line.lower()))
+    return column3

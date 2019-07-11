@@ -7,17 +7,17 @@ PROGRAM halo_model
    USE string_operations
 
    IMPLICIT NONE
-   REAL ::power_f, mass, l_length_real, name_real, kmin, kmax, amin, amax, lmin, lmax, na_real
+   REAL ::power_f, mass, l_length_real, kmin, kmax, amin, amax, lmin, lmax, ihm_real
    REAL, ALLOCATABLE :: k(:), l_array(:), a(:), Cl(:)
    REAL, ALLOCATABLE :: pow_li(:, :), pow_2h(:, :, :, :), pow_1h(:, :, :, :), pow_hm(:, :, :, :)
    INTEGER :: icosmo, ihm, field(1), i, j, nf, ix(2)
    INTEGER :: nk, na, l_length, name
-   CHARACTER(len=256) :: fbase, fbase2, fext, output, p_str, q_str, l_length_str, a_str, l_str, na_str
+   CHARACTER(len=256) :: fbase, fbase2, fext, output, l_length_str, ihm_str
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
    LOGICAL :: verbose2
 
-!   Integration domain : to modify to find the importance of this on the power spectrum
+   !   Integration domain : to modify to find the importance of this on the power spectrum
    REAL, PARAMETER :: mmin = 1e7
    REAL, PARAMETER :: mmax = 1e17
    LOGICAL, PARAMETER :: verbose = .FALSE.
@@ -27,14 +27,17 @@ PROGRAM halo_model
    icosmo = 1
    CALL assign_cosmology(icosmo, cosm, verbose)
    CALL init_cosmology(cosm)
+
+   CALL get_command_argument(1, ihm_str)
+   read (ihm_str, '(f10.0)') ihm_real
    ! Assign the halo model
-   ihm = 3
+   ihm = INT(ihm_real)
    CALL assign_halomod(ihm, hmod, verbose)
 
-   CALL get_command_argument(1, na_str)
-   read (na_str, '(f10.0)') na_real
+   CALL get_command_argument(2, l_length_str)
+   read (l_length_str, '(f10.0)') l_length_real
 
-   na = INT(na_real)
+   l_length = INT(l_length_real)
 
    ! Set number of k points and k range (log spaced)
    nk = 128
@@ -43,17 +46,18 @@ PROGRAM halo_model
    CALL fill_array(log(kmin), log(kmax), k, nk)
    k = exp(k)
 
-! Set the number of scale factors and range (linearly spaced)
+   ! Set the number of scale factors and range (linearly spaced)
    ! In lensing, we consider redshift between 0 and 3
    amin = 0.25
    amax = 1.0
+   na = 10
 
    CALL fill_array(amin, amax, a, na)
 
    ! Set number of k points and k range (log spaced)
-   lmin = 1.
+   lmin = 1e0
    lmax = 1e4
-   l_length = 100
+
    CALL fill_array(lmin, lmax, l_array, l_length)
 
    ! Allocate output Cl
@@ -79,14 +83,13 @@ PROGRAM halo_model
 
    CALL xpow_pka(ix, l_array, Cl, l_length, k, a, pow_hm, nk, na, cosm)
 
-   fbase = 'data/na='
-   fbase = trim(fbase)//trim(na_str)
-   fext = '/pow2D.dat'
+   fbase = 'data/ihm='
+   fext = '/power2D.dat'
+   fbase = TRIM(fbase)//TRIM(ihm_str)
    output = TRIM(fbase)//TRIM(fext)
-
    OPEN (1, file=output)
    DO j = 1, l_length
-      WRITE (1, *) Cl(j)
+      WRITE (1, *) l_array(j), Cl(j)
    END DO
 
 END PROGRAM
