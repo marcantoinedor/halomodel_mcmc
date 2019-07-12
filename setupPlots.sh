@@ -1,3 +1,5 @@
+#!/bin/bash
+mkdir -p bin/plots
 
 # Basic plots of halo model power spectrum
 cp old_scripts/halo_model.demo.f90 src/halo_model.f90

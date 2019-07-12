@@ -50,11 +50,11 @@ def cov_mat():
 
 
 def sigm_square():
-    return ((cov_mat().diagonal())[:21])
+    return ((cov_mat().diagonal())[21:])
 
 
 def sigp_square():
-    return ((cov_mat().diagonal())[21:])
+    return ((cov_mat().diagonal())[:21])
 
 
 def sigm():
