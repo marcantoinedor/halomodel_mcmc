@@ -16,9 +16,6 @@ PROGRAM halo_model
    TYPE(cosmology) :: cosm
    LOGICAL :: verbose2
 
-!   Integration domain : to modify to find the importance of this on the power spectrum
-   REAL, PARAMETER :: mmin = 1e7
-   REAL, PARAMETER :: mmax = 1e17
    LOGICAL, PARAMETER :: verbose = .FALSE.
    LOGICAL, PARAMETER :: response = .FALSE.
 
@@ -45,7 +42,7 @@ PROGRAM halo_model
 
    CALL get_command_argument(5, name_str)
 
-   CALL init_halomod(mmin, mmax, a, hmod, cosm, verbose)
+   CALL init_halomod(a, hmod, cosm, verbose)
 
    ! Allocate k_array
    ALLOCATE (k_array(k_length))

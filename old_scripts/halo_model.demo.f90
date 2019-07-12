@@ -14,9 +14,6 @@ PROGRAM halo_model
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
 
-!   Integration domain : to modify to find the importance of this on the power spectrum
-   REAL, PARAMETER :: mmin = 1e7
-   REAL, PARAMETER :: mmax = 1e17
    LOGICAL, PARAMETER :: verbose = .TRUE.
 
    ! Assigns the cosmological model
@@ -48,7 +45,7 @@ PROGRAM halo_model
    ! Calculate halo model
    field = field_dmonly
    nf = 1
-   CALL calculate_HMx(field, nf, mmin, mmax, k, nk, a, na, pow_li, pow_2h, pow_1h, pow_hm, hmod, cosm, verbose, response=.FALSE.)
+   CALL calculate_HMx(field, nf, k, nk, a, na, pow_li, pow_2h, pow_1h, pow_hm, hmod, cosm, verbose, response=.FALSE.)
 
    ! Write data file to disk
    base = 'data/power'

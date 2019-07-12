@@ -16,9 +16,6 @@ PROGRAM halo_model
    TYPE(cosmology) :: cosm
    LOGICAL :: verbose2
 
-!   Integration domain : to modify to find the importance of this on the power spectrum
-   REAL, PARAMETER :: mmin = 1e7
-   REAL, PARAMETER :: mmax = 1e17
    LOGICAL, PARAMETER :: verbose = .FALSE.
    LOGICAL, PARAMETER :: response = .FALSE.
 
@@ -43,7 +40,7 @@ PROGRAM halo_model
    ! most relevant redshift for CFHTLenS
    a = 1./(1 + 0.7)
 
-   CALL init_halomod(mmin, mmax, a, hmod, cosm, verbose)
+   CALL init_halomod(a, hmod, cosm, verbose)
 
    ! Allocate array for power spectrum
    ALLOCATE (pow_li(nk, 1), pow_2h(1, 1, nk, 1), pow_1h(1, 1, nk, 1), pow_hm(1, 1, nk, 1))

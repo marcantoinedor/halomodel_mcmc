@@ -18,8 +18,6 @@ PROGRAM halo_model
    TYPE(cosmology) :: cosm
    LOGICAL :: verbose2
 
-   !   Integration domain : to modify to find the importance of this on the power spectrum
-   REAL, PARAMETER :: mmax = 1e17
    LOGICAL, PARAMETER :: verbose = .FALSE.
    LOGICAL, PARAMETER :: response = .FALSE.
 
@@ -90,7 +88,8 @@ PROGRAM halo_model
 
    DO i = 1, na
       !TODO_statement
-      CALL init_halomod(mmin, mmax, a(i), hmod, cosm, verbose)
+      CALL init_halomod(a(i), hmod, cosm, verbose)
+      hmod%mmin = mmin
       CALL calculate_HMx_a(field, nf, k, nk, pow_li(:, i), pow_2h(:, :, :, i), pow_1h(:, :, :, i), pow_hm(:, :, :, i), hmod, cosm, verbose, response)
 
    END DO

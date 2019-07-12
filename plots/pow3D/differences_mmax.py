@@ -1,9 +1,13 @@
 import matplotlib.pyplot as plt
 import os
+import sys
 from colour import Color
 import utils.get_pow3D as dat
 import utils.create_data as create
 
+clean = False
+if len(sys.argv) == 2:
+    clean = (sys.argv[1] == 'clean')
 
 x_axis = dat.get_x_axis_mmax()
 scale = dat.get_scale_parameter()
@@ -17,7 +21,7 @@ terms = ['1h', '2h', 'hm']
 mmaxs = ['1e17', '5e16', '5e15', '2.5e15', '1e15', '5e14', '1e14', '1e13', '1e12']
 
 # Create data if it doesn't exist
-create.power3D_mmax(mmaxs)
+create.power3D_mmax(mmaxs, clean=clean)
 
 # colors for the plot
 begin_color = Color("blue")
