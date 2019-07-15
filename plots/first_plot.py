@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+import os
 # logarithmic scale
 plt.xscale('log')
 plt.yscale('log')
@@ -7,6 +7,9 @@ plt.yscale('log')
 # labels
 plt.xlabel('$k / h \ Mpc^{-1}$')
 plt.ylabel('$\Delta^2 (k)$')
+
+# Creating data
+os.system("./bin/halo_model_demo")
 
 # collecting data
 n = 11

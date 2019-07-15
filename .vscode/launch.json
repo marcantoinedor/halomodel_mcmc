@@ -17,12 +17,6 @@
             "cwd": "${workspaceRoot}",
             "externalConsole": false,
             "preLaunchTask": "make"
-        },
-        {
-            "name": "Intel Debug Attach",
-            "type": "cppvsdbg",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
         }
     ]
 }

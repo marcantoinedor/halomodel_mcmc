@@ -11,8 +11,8 @@ import os
 
 
 # Running code parameters
-optimize = False
-MCMC = True
+optimize = True
+MCMC = False
 verb = False
 
 if len(sys.argv) != 3:
@@ -25,7 +25,7 @@ threads = int(sys.argv[2])
 # HM code parameters
 
 icosmo = int(sys.argv[1])
-ihm = 3
+ihm = 1
 
 # model parameters
 p_st = 0.3
@@ -75,23 +75,23 @@ if not optimize:
     print("MCMC only mode, using already computed parameters")
 
 # Find the maximum of the likehood to get the best parameters thanks to the data
-os.system("mkdir -p mcmc/results/CFHT")
+os.system("mkdir -p mcmc/results/CFHT/ihm={0}/" .format(ihm))
 
 if optimize:
     print("Starting fitting p and q")
     # We want to maximise the likehood
     nll = lambda *args: -lnlike(*args)
     # Best to use log-parameters I think, thanks to the living spaces of p and q
-    result = op.minimize(nll, [q_st, p_st], args=(y, yerrinv, True))
+    result = op.minimize(nll, [q_st, p_st], args=(y, yerrinv, True), method='Nelder-Mead', tol=1e-6)
     q_ml, p_ml = result["x"]
     print("Best fit is q={0}, p={1}" .format(*[q_ml, p_ml]))
-    data = open("mcmc/results/CFHT/fit{0}.txt" .format(icosmo), "w")
+    data = open("mcmc/results/CFHT/ihm={1}/fit{0}.txt" .format(*[icosmo, ihm]), "w")
     data.write("q={0}, p={1}" .format(*[q_ml, p_ml]))
     data.close()
 
 else:
-    if os.path.isfile("mcmc/results/CFHT/fit{0}.txt" .format(icosmo)):
-        data = open("mcmc/results/CFHT/fit{0}.txt" .format(icosmo), "r")
+    if os.path.isfile("mcmc/results/CFHT/ihm={1}/fit{0}.txt" .format(*[icosmo, ihm])):
+        data = open("mcmc/results/CFHT/ihm={1}/fit{0}.txt" .format(*[icosmo, ihm]), "r")
         line = data.readlines()
         data.close()
 

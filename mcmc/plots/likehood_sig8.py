@@ -6,7 +6,7 @@ import os
 import matplotlib.pyplot as plt
 import scipy.optimize as op
 
-computes = True
+computes = False
 sig8_st = 0.8
 # Importing Data from CFHT
 print("Loading data")
@@ -63,7 +63,7 @@ print("Best fit is sig8={0}" .format(sig8_ml))
 plt.plot(sig8s, likes)
 plt.plot([sig8_ml], [value], '-ro', label="{0}" .format(sig8_ml))
 plt.xlabel('$\\sigma_8$')
-plt.ylabel('ln_like')
+plt.ylabel('log_like')
 plt.legend()
 plt.savefig('mcmc/figures/CFHT/likehood/sig8.png')
 plt.show()

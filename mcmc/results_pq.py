@@ -25,7 +25,7 @@ lower1 = 10
 lower2 = 25
 print("Loading and computing data")
 
-data = open("mcmc/results/{1}/fit{0}.txt" .format(*[icosmo, usedData]), "r")
+data = open("mcmc/results/{1}/ihm={2}/fit{0}.txt" .format(*[icosmo, usedData, ihm]), "r")
 line = data.readlines()
 data.close()
 
@@ -58,7 +58,7 @@ det = np.linalg.det(yerr)
 errp = dataCFHT.sigp()
 errm = dataCFHT.sigm()
 
-chain = np.load('mcmc/results/{1}/chain_st{0}.npy' .format(*[icosmo, usedData]))
+chain = np.load('mcmc/results/{1}/ihm={2}/chain_st{0}.npy' .format(*[icosmo, usedData, ihm]))
 
 otherchain = chain.reshape((nwalkers, steps, ndim))
 
@@ -67,7 +67,7 @@ samples = chain[:, firsts:, :].reshape((-1, ndim))
 
 # plot model with results
 
-os.system("mkdir -p mcmc/figures/{0}" .format(usedData))
+os.system("mkdir -p mcmc/figures/{0}/ihm={1}/" .format(*[usedData, ihm]))
 
 if usedData == 'CFHT':
     model = correlation.xiCFHT(q_ml, p_ml, icosmo, ihm, True)
@@ -87,7 +87,7 @@ plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_+$')
 
 
-plt.savefig('mcmc/figures/{1}/xip{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
+plt.savefig('mcmc/figures/{1}/ihm={2}/xip{0}.png' .format(*[icosmo, usedData, ihm]), bbox_inches='tight', dpi=200)
 plt.figure(2).set_size_inches((8, 8), forward=False)
 plt.title(
     "Correlation function $\\xi_-$")
@@ -100,7 +100,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_-$')
-plt.savefig('mcmc/figures/{1}/xim{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
+plt.savefig('mcmc/figures/{1}/ihm={2}/xim{0}.png' .format(*[icosmo, usedData, ihm]), bbox_inches='tight', dpi=200)
 
 # plots of the sampler
 plt.figure(3)
@@ -111,10 +111,10 @@ for i in range(nwalkers):
     ax2.plot(chain[i, :, 1], color='black')
 
 plt.figure(3)
-plt.savefig("mcmc/figures/{1}/mcmc_walkers{0}.png" .format(*[icosmo, usedData]), dpi=200)
+plt.savefig("mcmc/figures/{1}/ihm={2}/mcmc_walkers{0}.png" .format(*[icosmo, usedData, ihm]), dpi=200)
 
 fig = corner.corner(samples, labels=["$q$", "$p$"], truths=[q_ml, p_ml])
-fig.savefig("mcmc/figures/{1}/mcmc_contours{0}.png" .format(*[icosmo, usedData]), dpi=200)
+fig.savefig("mcmc/figures/{1}/ihm={2}/mcmc_contours{0}.png" .format(*[icosmo, usedData, ihm]), dpi=200)
 
 print("Basic plots created")
 
@@ -126,7 +126,7 @@ print("q={0} + {1}, - {2}" .format(*[q_mcmc1[0], q_mcmc1[1], q_mcmc1[2]]))
 print("p={0} + {1}, - {2}" .format(*[p_mcmc1[0], p_mcmc1[1], p_mcmc1[2]]))
 
 # Save these values
-data = open("mcmc/results/{1}/mcmc{0}.txt" .format(*[icosmo, usedData]), "w")
+data = open("mcmc/results/{1}/ihm={2}/mcmc{0}.txt" .format(*[icosmo, usedData, ihm]), "w")
 data.write("MCMC found these values for {0}/100 certainties" .format(lower1))
 data.write("\nq={0} + {1}, - {2}" .format(*[q_mcmc1[0], q_mcmc1[1], q_mcmc1[2]]))
 data.write("\np={0} + {1}, - {2}" .format(*[p_mcmc1[0], p_mcmc1[1], p_mcmc1[2]]))
@@ -168,7 +168,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_+$')
-plt.savefig('mcmc/figures/{1}/xip_percentile{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
+plt.savefig('mcmc/figures/{1}/ihm={2}/xip_percentile{0}.png' .format(*[icosmo, usedData, ihm]), bbox_inches='tight', dpi=200)
 
 
 plt.figure(8).set_size_inches((8, 8), forward=False)
@@ -189,7 +189,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
 plt.ylabel('$\\xi_-$')
-plt.savefig('mcmc/figures/{1}/xim_percentile{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
+plt.savefig('mcmc/figures/{1}/ihm={2}/xim_percentile{0}.png' .format(*[icosmo, usedData, ihm]), bbox_inches='tight', dpi=200)
 
 if not others:
     plt.show()
@@ -231,9 +231,9 @@ for q, p in samples[np.random.randint(len(samples), size=nbr)]:
 
 
 plt.figure(5)
-plt.savefig('mcmc/figures/{1}/xip_var{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
+plt.savefig('mcmc/figures/{1}/ihm={2}/xip_var{0}.png' .format(*[icosmo, usedData, ihm]), bbox_inches='tight', dpi=200)
 plt.figure(6)
-plt.savefig('mcmc/figures/{1}/xim_var{0}.png' .format(*[icosmo, usedData]), bbox_inches='tight', dpi=200)
+plt.savefig('mcmc/figures/{1}/ihm={2}/xim_var{0}.png' .format(*[icosmo, usedData, ihm]), bbox_inches='tight', dpi=200)
 
 
 plt.show(fig)
