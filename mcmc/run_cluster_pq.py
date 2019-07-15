@@ -36,7 +36,7 @@ p_o = 0.2
 q_o = 0.6
 
 # MCMC parameters
-ndim, nwalkers, steps = 2, 4, 10
+ndim, nwalkers, steps = 2, 200, 1000
 
 # Importing Data from CFHT
 print("Loading data")
