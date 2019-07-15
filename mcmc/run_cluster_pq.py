@@ -11,8 +11,8 @@ import os
 
 
 # Running code parameters
-optimize = True
-MCMC = False
+optimize = False
+MCMC = True
 verb = False
 
 if len(sys.argv) != 3:
@@ -36,7 +36,7 @@ p_o = 0.2
 q_o = 0.6
 
 # MCMC parameters
-ndim, nwalkers, steps = 2, 200, 1000
+ndim, nwalkers, steps = 2, 4, 10
 
 # Importing Data from CFHT
 print("Loading data")
