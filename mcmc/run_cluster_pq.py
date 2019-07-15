@@ -7,7 +7,7 @@ import CFHTLenS.get as data
 import os
 
 
-# Call this script with one argument : number of threads to use in parallelisation for MCMC
+# Call this script with two arguments : icosmo and number of threads to use in parallelisation for MCMC
 
 
 # Running code parameters
@@ -138,8 +138,8 @@ sampler = emcee.EnsembleSampler(
 sampler.run_mcmc(pos, steps)
 
 # save data
-np.save('mcmc/results/CFHT/chain_st{0}.npy' .format(icosmo), sampler.chain)
+np.save('mcmc/results/CFHT/ihm={1}/chain_st{0}.npy' .format(*[icosmo, ihm]), sampler.chain)
 
-data = open("mcmc/results/CFHT/acceptanceFraction{0}.txt" .format(icosmo), "w")
+data = open("mcmc/results/CFHT/ihm={1}/acceptanceFraction{0}.txt" .format(*[icosmo, ihm]), "w")
 data.write("Mean acceptance fraction: {0:.3f}" .format(np.mean(sampler.acceptance_fraction)))
 data.close()

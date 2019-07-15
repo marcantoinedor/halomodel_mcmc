@@ -7,13 +7,13 @@ PROGRAM halo_model
    USE string_operations
 
    IMPLICIT NONE
-   REAL ::power_f, mass, l_length_real, name_real, kmin, kmax, amin, amax, lmin, lmax, thmin, thmax, ihm_real, l_max_real
+   REAL ::power_f, mass, l_length_real, name_real, kmin, kmax, amin, amax, lmin, lmax, thmin, thmax, ihm_real, l_max_real, icosmo_real
    REAL, ALLOCATABLE :: k(:), l_array(:), a(:), Cl(:), th_tab(:), xi_tab(:, :)
    REAL, ALLOCATABLE :: pow_li(:, :), pow_2h(:, :, :, :), pow_1h(:, :, :, :), pow_hm(:, :, :, :)
    INTEGER :: icosmo, ihm, field(1), i, j, nf, ix(2)
    INTEGER :: nk, na, l_length, l_max, nth, m
    INTEGER, ALLOCATABLE :: iBessel(:)
-   CHARACTER(len=256) :: fbase, fbase2, fext1, fext3, output1, output3, l_max_str, input, th_str, ihm_str, ext
+   CHARACTER(len=256) :: fbase, fbase2, fext1, fext3, output1, output3, l_max_str, input, th_str, ihm_str, ext, icosmo_str
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
    LOGICAL :: verbose2
@@ -22,7 +22,10 @@ PROGRAM halo_model
    LOGICAL, PARAMETER :: response = .FALSE.
 
    ! Assigns the cosmological model
-   icosmo = 1
+   CALL get_command_argument(3, icosmo_str)
+   read (icosmo_str, '(f10.0)') icosmo_real
+   icosmo = INT(icosmo_real)
+
    CALL assign_cosmology(icosmo, cosm, verbose)
    CALL init_cosmology(cosm)
 

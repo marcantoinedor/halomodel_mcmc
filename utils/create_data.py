@@ -135,7 +135,7 @@ def power_2D_ihm(ihms, l_length, clean=False):
             os.system("./bin/plots/pow2D_ihm {0} {1}" .format(*[ihm, l_length]))
 
 
-def xi_CFHT_ihm(ihms, l_max, clean=False):
+def xi_CFHT_ihm(ihms, l_max, icosmo=1, clean=False):
     if ihms == []:
         ihms = [1, 3]
 
@@ -143,4 +143,4 @@ def xi_CFHT_ihm(ihms, l_max, clean=False):
         if (not os.path.isfile("data/ihm={0}/xi1.dat" .format(ihm))) or clean:
             os.system("mkdir -p data/ihm={0}" .format(ihm))
             print("Creating data for ihm={0}" .format(ihm))
-            os.system("./bin/plots/xi_ihm {0} {1}" .format(*[ihm, l_max]))
+            os.system("./bin/plots/xi_ihm {0} {1} {2}" .format(*[ihm, l_max, icosmo]))

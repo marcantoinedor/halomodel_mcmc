@@ -4,11 +4,12 @@ import correlation
 import CFHTLenS.get as dat
 import os
 
-icosmos = [45]
+icosmos = [50]
 cosmos = ['Kilbinger']
-i = 0
+index_cosmo = 0
 ihms = [1, 3]
-halo_models = ['halomodel', 'HMcode']
+halo_models = ['Halomodel', 'HMCode']
+index_ihm = 0
 
 usedData = 'CFHT'
 
@@ -34,6 +35,7 @@ errm = dat.sigm()
 
 for ihm in ihms:
 
+    index_cosmo = 0
     for icosmo in icosmos:
 
         def khisquare(params, y, invcov, verbose=False):
@@ -46,7 +48,7 @@ for ihm in ihms:
             return np.matmul(np.transpose(y-model), np.matmul(invcov, (y-model)))
 
         # computation of khi square values for all best fits
-        data = open("mcmc/results/{1}/fit{0}.txt" .format(*[icosmo, usedData]), "r")
+        data = open("mcmc/results/{1}/ihm={2}/fit{0}.txt" .format(*[icosmo, usedData, ihm]), "r")
         line = data.readlines()
         data.close()
 
@@ -59,11 +61,11 @@ for ihm in ihms:
         p_st = 0.3
 
         # Degrees of freedom
-        d = N - 2
+        d = N
         ki2_ml = khisquare([q_ml, p_ml], y, yerrinv, verbose=True)
         reduced_ki2_ml = ki2_ml/d
-        print("{2} cosmology : khi^2={0}, reduced is khi^2_r={1}" .format(*[ki2_ml, reduced_ki2_ml, cosmos[i]]))
-        i += 1
+        print("{3}, {2} cosmology : khi^2={0}, reduced is khi^2_r={1}" .format(*[ki2_ml, reduced_ki2_ml, cosmos[index_cosmo], halo_models[index_ihm]]))
+        index_cosmo += 1
+    index_ihm += 1
 
-
-# High reduced khi gives lead to a bad model, low reduced khi is a bad data in errorbars
+# High reduced khi lead to a bad model, low reduced khi is a bad data in errorbars
