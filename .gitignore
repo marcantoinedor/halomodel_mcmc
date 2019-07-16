@@ -12,6 +12,9 @@ mcmc/bin/
 # Library
 lib/
 
+# Source code
+src/
+
 # Data
 data/
 
