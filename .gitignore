@@ -13,7 +13,7 @@ mcmc/bin/
 lib/
 
 # Source code
-src/
+src/*
 
 # Data
 data/

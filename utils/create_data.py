@@ -56,6 +56,14 @@ def findLmax_CFHT(lmax, clean=False):
         os.system('./bin/opt/findLmax_CFHT {0}' .format(lmax))
 
 
+def findL_length(l_length, clean=False):
+
+    if (not os.path.isfile("data/l_length={0}/xi1.dat" .format(l_length))) or clean:
+        os.system('mkdir -p data/l_length={0}' .format(l_length))
+        print("Creating data l_length={0}" .format(l_length))
+        os.system('./bin/opt/findL_length {0}' .format(l_length))
+
+
 def power3D_mmin(mmins, clean=False):
 
     if mmins == []:

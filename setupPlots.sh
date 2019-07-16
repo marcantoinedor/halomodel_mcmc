@@ -86,6 +86,10 @@ cp fortran/opt/findLmax_CFHT.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/opt/findLmax_CFHT
 
+# Optimisation scripts for number of l_length to consider
+cp fortran/opt/findL_length.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/opt/findL_length
 
 # # plots of correlation function varying cosmology
 # cp fortran/correlation/cosmo_CFHT.f90 src/halo_model
