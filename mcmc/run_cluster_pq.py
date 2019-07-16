@@ -15,8 +15,8 @@ optimize = False
 MCMC = True
 verb = False
 
-if len(sys.argv) != 3:
-    print("Expecting 2 arguments : icosmo and the number of threads you want to use")
+if len(sys.argv) != 4:
+    print("Expecting 3 arguments : icosmo, ihm and the number of threads you want to use")
     quit()
 
 
