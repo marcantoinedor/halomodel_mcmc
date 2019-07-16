@@ -2,6 +2,9 @@ import numpy as np
 
 
 def thetas():
+    '''
+    Return a numpy array containing CFHT thetas in arcminutes
+    '''
     data = open('CFHTLenS/readable.dat', "r")
     lines = data.readlines()
     data.close()

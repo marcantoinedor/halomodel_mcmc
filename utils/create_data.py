@@ -40,6 +40,22 @@ def findNa(na, clean=False):
         os.system('./bin/opt/findNa {0}' .format(na))
 
 
+def findLmax(lmax, clean=False):
+
+    if (not os.path.isfile("data/lmax={0}/xi1.dat" .format(lmax))) or clean:
+        os.system('mkdir -p data/lmax={0}' .format(lmax))
+        print("Creating data lmax={0}" .format(lmax))
+        os.system('./bin/opt/findLmax {0}' .format(lmax))
+
+
+def findLmax_CFHT(lmax, clean=False):
+
+    if (not os.path.isfile("data/lmax={0}/xi1_CFHT.dat" .format(lmax))) or clean:
+        os.system('mkdir -p data/lmax={0}' .format(lmax))
+        print("Creating data lmax={0}" .format(lmax))
+        os.system('./bin/opt/findLmax_CFHT {0}' .format(lmax))
+
+
 def power3D_mmin(mmins, clean=False):
 
     if mmins == []:

@@ -54,7 +54,7 @@ PROGRAM halo_model
 
 ! Set the number of scale factors and range (linearly spaced)
    ! In lensing, we consider redshift between 0 and 3
-   amin = 0.25
+   amin = 0.22
    amax = 1.0
    na = 7
    CALL fill_array(amin, amax, a, na)

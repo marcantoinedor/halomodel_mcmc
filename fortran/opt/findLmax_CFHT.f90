@@ -43,20 +43,20 @@ PROGRAM halo_model
 
    ! Set the number of scale factors and range (linearly spaced)
    ! In lensing, we consider redshift between 0 and 3
-   amin = 0.25
+   amin = 0.22
    amax = 1.0
    na = 8
 
    CALL fill_array(amin, amax, a, na)
-
-   ! Allocate output Cl
-   ALLOCATE (Cl(l_length))
 
    lmin = 1.
    lmax = 1e4
    l_length = 100
    CALL fill_array(log(lmin), log(lmax), l_array, l_length)
    l_array = exp(l_array)
+
+   ! Allocate output Cl
+   ALLOCATE (Cl(l_length))
 
    ! Choose lens survey tracer_CFHTLenS_Kilbinger2013=4
    ix = tracer_CFHTLenS_Kilbinger2013

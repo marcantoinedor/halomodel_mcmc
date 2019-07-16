@@ -71,10 +71,21 @@ cp fortran/correlation/xi_ihm.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/xi_ihm
 
-# Optimisation scripts for number of loop iterations
+# Optimisation scripts for number of scale factors for interpolation in Limber
 cp fortran/opt/findNa.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/opt/findNa
+
+# Optimisation scripts for number of Bessel modes to consider
+cp fortran/opt/findLmax.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/opt/findLmax
+
+# Optimisation scripts for number of Bessel modes to consider
+cp fortran/opt/findLmax_CFHT.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/opt/findLmax_CFHT
+
 
 # # plots of correlation function varying cosmology
 # cp fortran/correlation/cosmo_CFHT.f90 src/halo_model

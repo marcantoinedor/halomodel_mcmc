@@ -11,8 +11,8 @@ import os
 
 
 # Running code parameters
-optimize = False
-MCMC = True
+optimize = True
+MCMC = False
 verb = False
 
 if len(sys.argv) != 3:
@@ -25,7 +25,7 @@ threads = int(sys.argv[2])
 # HM code parameters
 
 icosmo = int(sys.argv[1])
-ihm = 1
+ihm = 3
 
 # model parameters
 p_st = 0.3

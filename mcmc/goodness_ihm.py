@@ -4,11 +4,11 @@ import correlation
 import CFHTLenS.get as dat
 import os
 
-icosmos = [50]
-cosmos = ['Kilbinger']
+icosmos = [4, 42, 50]
+cosmos = ['WMAP9', 'Planck 2018', 'Kilbinger']
 index_cosmo = 0
 ihms = [1, 3]
-halo_models = ['Halomodel', 'HMCode']
+halo_models = ['HMCode', 'Halomodel']
 index_ihm = 0
 
 usedData = 'CFHT'
@@ -61,10 +61,10 @@ for ihm in ihms:
         p_st = 0.3
 
         # Degrees of freedom
-        d = N
+        d = N-2
         ki2_ml = khisquare([q_ml, p_ml], y, yerrinv, verbose=True)
         reduced_ki2_ml = ki2_ml/d
-        print("{3}, {2} cosmology : khi^2={0}, reduced is khi^2_r={1}" .format(*[ki2_ml, reduced_ki2_ml, cosmos[index_cosmo], halo_models[index_ihm]]))
+        print("{3}, {2} cosmology : chi^2={0}, reduced is chi^2_r={1}" .format(*[ki2_ml, reduced_ki2_ml, cosmos[index_cosmo], halo_models[index_ihm]]))
         index_cosmo += 1
     index_ihm += 1
 
