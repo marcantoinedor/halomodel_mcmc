@@ -7,12 +7,12 @@ import CFHTLenS.get as data
 import os
 
 
-# Call this script with two arguments : icosmo and number of threads to use in parallelisation for MCMC
+# Call this script with three arguments : icosmo, ihm and number of threads to use in parallelisation for MCMC
 
 
 # Running code parameters
-optimize = True
-MCMC = False
+optimize = False
+MCMC = True
 verb = False
 
 if len(sys.argv) != 3:
@@ -20,12 +20,12 @@ if len(sys.argv) != 3:
     quit()
 
 
-threads = int(sys.argv[2])
+threads = int(sys.argv[3])
 
 # HM code parameters
 
 icosmo = int(sys.argv[1])
-ihm = 3
+ihm = int(sys.argv[2])
 
 # model parameters
 p_st = 0.3
