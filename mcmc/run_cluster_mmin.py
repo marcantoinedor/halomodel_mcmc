@@ -7,7 +7,7 @@ import CFHTLenS.get as data
 import os
 
 
-# Call this script with two arguments : icosmo andnumber of threads to use in parallelisation for MCMC
+# Call this script with three arguments : icosmo, ihm and number of threads to use in parallelisation for MCMC
 
 
 # Running code parameters
@@ -15,17 +15,17 @@ optimize = True
 MCMC = True
 verb = False
 
-if len(sys.argv) != 3:
-    print("Expecting 2 arguments : icosmo and the number of threads you want to use")
+if len(sys.argv) != 4:
+    print("Expecting 3 arguments : icosmo, ihm and the number of threads you want to use")
     quit()
 
 
-threads = int(sys.argv[2])
+threads = int(sys.argv[3])
 
 # HM code parameters
 
 icosmo = int(sys.argv[1])
-ihm = 3
+ihm = int(sys.argv[2])
 
 # log space
 mmin_st = 7.0
@@ -81,12 +81,18 @@ if optimize:
                          args=(y, yerrinv, True), method='Nelder-Mead', tol=1e-6)
     mmin_ml = result["x"][0]
     print("Best fit is mmin={0}" .format(mmin_ml))
-    data = open("mcmc/results/CFHT/mmin{0}.txt" .format(icosmo), "w")
+    data = open("mcmc/results/CFHT/ihm={1}/mmin{0}.txt" .format(*[icosmo, ihm]), "w")
     data.write("mmin={0}" .format(mmin_ml))
     data.close()
 
 else:
-    mmin_ml = mmin_st
+    if os.path.isfile("mcmc/results/CFHT/ihm={1}/mmin{0}.txt" .format(*[icosmo, ihm])):
+        data = open("mcmc/results/CFHT/ihm={1}/mmin{0}.txt" .format(*[icosmo, ihm]), "r")
+        line = data.readlines()
+        data.close()
+        mmin_ml = float(line.split('=')[1])
+    else:
+        mmin_ml = mmin_st
 
 # MCMC, to get uncertainties
 # uniform distribution of theta in a 2-D box
@@ -124,8 +130,8 @@ sampler = emcee.EnsembleSampler(
 sampler.run_mcmc(pos, steps)
 
 # save data
-np.save('mcmc/results/CFHT/mmin_chain{0}.npy' .format(icosmo), sampler.chain)
+np.save('mcmc/results/CFHT/ihm={1}/mmin_chain{0}.npy' .format(*[icosmo, ihm]), sampler.chain)
 
-data = open("mcmc/results/CFHT/mmin_acceptanceFraction{0}.txt" .format(icosmo), "w")
+data = open("mcmc/results/CFHT/ihm={1}/mmin_acceptanceFraction{0}.txt" .format(*[icosmo, ihm]), "w")
 data.write("\n\nMean acceptance fraction: {0:.3f}" .format(np.mean(sampler.acceptance_fraction)))
 data.close()

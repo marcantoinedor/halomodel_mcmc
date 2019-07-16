@@ -11,7 +11,7 @@ icosmo = int(sys.argv[1])
 icosmos = [1, 4, 42]
 index = icosmos.index(icosmo)
 cosmos = ['Fiducial', 'WMAP9', 'Planck 2018']
-ihm = 3
+ihm = 1
 alpha_st = 1.0
 
 # Importing Data from CFHT
@@ -45,15 +45,16 @@ def lnlike(param, y, invcov, verbose=False):
     return -0.5*np.matmul(np.transpose(y-model), np.matmul(invcov, (y-model)))
 
 
-os.system("mkdir -p mcmc/figures/CFHT/likehood")
-os.system("mkdir -p mcmc/data")
+os.system("mkdir -p mcmc/figures/CFHT/likehood/ihm={0}" .format(ihm))
+os.system("mkdir -p mcmc/data/ihm={0}" .format(ihm))
+
 alphas = np.linspace(0.5, 1.5, 100)
 
-if computes:
+if computes or (not os.path.isfile('mcmc/data/ihm={1}/likehood_alpha{0}.npy' .format(*[icosmo, ihm]))):
     likes = np.array([lnlike([alpha], y, yerrinv, verbose=True) for alpha in alphas])
-    np.save('mcmc/data/likehood_alpha{0}.npy' .format(icosmo), likes)
+    np.save('mcmc/data/ihm={1}/likehood_alpha{0}.npy' .format(*[icosmo, ihm]), likes)
 else:
-    likes = np.load('mcmc/data/likehood_alpha{0}.npy' .format(icosmo))
+    likes = np.load('mcmc/data/ihm={1}/likehood_alpha{0}.npy' .format(*[icosmo, ihm]))
 
 
 nll = lambda *args: -lnlike(*args)
@@ -72,5 +73,5 @@ plt.title('Best fit for {0} cosmology' .format(cosmos[index]))
 plt.xlabel('log(alpha)')
 plt.ylabel('ln_like')
 plt.legend()
-plt.savefig('mcmc/figures/CFHT/likehood/alpha{0}.png' .format(icosmo))
+plt.savefig('mcmc/figures/CFHT/likehood/ihm={1}/alpha{0}.png' .format(*[icosmo, ihm]))
 plt.show()

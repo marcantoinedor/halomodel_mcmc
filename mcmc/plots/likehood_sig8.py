@@ -43,7 +43,7 @@ os.system("mkdir -p mcmc/figures/CFHT/likehood")
 os.system("mkdir -p mcmc/data")
 sig8s = np.linspace(0.1, 0.9, 100)
 
-if computes:
+if computes or (not os.path.isfile('mcmc/data/likehood_sig8.npy')):
     likes = np.array([lnlike([sig8], y, yerrinv, verbose=True) for sig8 in sig8s])
     np.save('mcmc/data/likehood_sig8.npy', likes)
 else:

@@ -10,8 +10,8 @@ clean = False
 if len(sys.argv) == 2:
     clean = (sys.argv[1] == 'clean')
 
-lmaxs = [1e3, 1e4, 5e4, 1e5, 5e5]
-ref = 1e6
+lmaxs = [int(1e3), int(1e4), int(5e4), int(1e5), int(5e5)]
+ref = int(1e6)
 
 # Theta scale
 thmin = 0.5*1/60*np.pi/180

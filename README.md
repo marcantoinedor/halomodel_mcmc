@@ -29,6 +29,18 @@ The required dependencies are the following:
 
 In order to make the code easy to read and modify, some separated modules are implemented in python to get data, create data and others actions...
 
+Finally you will need to replace the line 1316 in library following file  ***src/limber.f90*** : 
+(where the n(z) histogram of CFHTLenS is hardcoded) in the 
+
+```
+input = '/Users/Mead/Physics/data/CFHTLenS/nz.txt'
+```
+
+by this one : 
+
+```
+input = 'CFHTLenS/nz.txt'
+```
 If the paths of these python files are not automatically detected, copy/paste this kind of line to your ***.profile*** file in your ***/home*** .
 
 ```
