@@ -65,8 +65,8 @@ PROGRAM halo_model
    ! Allocate output Cl
    ALLOCATE (Cl(l_length))
 
-   ! Choose lens survey tracer_CFHTLenS=4
-   ix = tracer_CFHTLenS
+   ! Choose lens survey tracer_CFHTLenS_Kilbinger2013=4
+   ix = tracer_CFHTLenS_Kilbinger2013
    ! get thetas (arcmin from CFHTLenS survey)
    input = 'CFHTLenS/thetas.dat'
    nth = 21

@@ -7,7 +7,7 @@ PROGRAM halo_model
    USE string_operations
 
    IMPLICIT NONE
-   REAL ::power_f, mass, l_length_real, name_real, kmin, kmax, amin, amax, lmin, lmax, thmin, thmax, l_max_real, mmin
+   REAL ::power_f, mass, l_length_real, kmin, kmax, amin, amax, lmin, lmax, thmin, thmax, l_max_real, mmin
    REAL, ALLOCATABLE :: k(:), l_array(:), a(:), Cl(:), th_tab(:), xi_tab(:, :)
    REAL, ALLOCATABLE :: pow_li(:, :), pow_2h(:, :, :, :), pow_1h(:, :, :, :), pow_hm(:, :, :, :)
    INTEGER :: icosmo, ihm, field(1), i, j, nf, ix(2)
@@ -61,8 +61,8 @@ PROGRAM halo_model
    ! Allocate output Cl
    ALLOCATE (Cl(l_length))
 
-   ! Choose lens survey tracer_CFHTLenS=4
-   ix = tracer_CFHTLenS
+   ! Choose lens survey tracer_CFHTLenS_Kilbinger2013=4
+   ix = tracer_CFHTLenS_Kilbinger2013
    ! get thetas (arcmin from CFHTLenS survey)
    input = 'CFHTLenS/thetas.dat'
    nth = 21

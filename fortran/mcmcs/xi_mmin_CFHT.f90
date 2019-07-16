@@ -11,7 +11,7 @@ PROGRAM halo_model
    REAL, ALLOCATABLE :: k(:), l_array(:), a(:), Cl(:), th_tab(:), xi_tab(:, :), xi_out(:)
    REAL, ALLOCATABLE :: pow_li(:, :), pow_2h(:, :, :, :), pow_1h(:, :, :, :), pow_hm(:, :, :, :)
    INTEGER :: icosmo, ihm, field(1), i, j, nf, ix(2)
-   INTEGER :: nk, na, nl, name, nth, l_max, m
+   INTEGER :: nk, na, nl, nth, l_max, m
    INTEGER, ALLOCATABLE :: iBessel(:)
    CHARACTER(len=256) :: input, th_str, icosmo_str, ihm_str, alpha_str, mmin_str
    TYPE(halomod) :: hmod
@@ -66,8 +66,8 @@ PROGRAM halo_model
    ! Allocate output Cl
    ALLOCATE (Cl(nl))
 
-   ! Choose lens survey tracer_CFHTLenS=4
-   ix = tracer_CFHTLenS
+   ! Choose lens survey tracer_CFHTLenS_Kilbinger2013=4
+   ix = tracer_CFHTLenS_Kilbinger2013
 
    ! number of data points in CFHTLenS survey
    nth = 21

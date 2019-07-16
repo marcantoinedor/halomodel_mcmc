@@ -70,8 +70,8 @@ PROGRAM halo_model
    ! Allocate output Cl
    ALLOCATE (Cl(nl))
 
-   ! Choose lens survey tracer_CFHTLenS=4
-   ix = tracer_CFHTLenS
+   ! Choose lens survey tracer_CFHTLenS_Kilbinger2013=4
+   ix = tracer_CFHTLenS_Kilbinger2013
 
    ! number of data points in CFHTLenS survey
    nth = 21

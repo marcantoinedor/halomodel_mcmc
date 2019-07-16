@@ -70,9 +70,9 @@ PROGRAM halo_model
    CALL fill_array(log(thmin), log(thmax), th_tab, nth)
    th_tab = exp(th_tab)
 
-   ! Choose lens survey tracer_CFHTLenS=4
-   ix = tracer_CFHTLenS
-   ! ix(2)=tracer_CFHTLenS
+   ! Choose lens survey tracer_CFHTLenS_Kilbinger2013=4
+   ix = tracer_CFHTLenS_Kilbinger2013
+   ! ix(2)=tracer_CFHTLenS_Kilbinger2013
 
    ! Allocate array for power spectrum
    ALLOCATE (pow_li(nk, na), pow_2h(1, 1, nk, na), pow_1h(1, 1, nk, na), pow_hm(1, 1, nk, na))

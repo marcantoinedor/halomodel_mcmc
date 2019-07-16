@@ -63,8 +63,8 @@ PROGRAM halo_model
    ! Allocate output Cl
    ALLOCATE (Cl(l_length))
 
-   ! Choose lens survey tracer_CFHTLenS=4
-   ix = tracer_CFHTLenS
+   ! Choose lens survey tracer_CFHTLenS_Kilbinger2013=4
+   ix = tracer_CFHTLenS_Kilbinger2013
 
    ! Allocate array for power spectrum
    ALLOCATE (pow_li(nk, na), pow_2h(1, 1, nk, na), pow_1h(1, 1, nk, na), pow_hm(1, 1, nk, na))
