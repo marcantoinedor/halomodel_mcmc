@@ -1,1 +1,1 @@
-Mean acceptance fraction: 0.700
+Mean acceptance fraction: 0.689

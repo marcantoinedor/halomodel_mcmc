@@ -50,7 +50,7 @@ plt.xlabel("$\\theta$ (arcmin)")
 plt.ylabel("$(\\xi_+-\\xi_{ref})/ \\xi_{ref}$")
 plt.yscale('log')
 plt.xscale('log')
-plt.savefig('figures/findmaxP_CFHT.png', bbox_inches='tight')
+plt.savefig('figures/opt/findmaxP_CFHT.png', bbox_inches='tight')
 
 plt.figure(3).set_size_inches((8, 8), forward=False)
 plt.title("Variation of $\\xi_-$ changing modes number, lref={0}" .format(ref))
@@ -59,6 +59,6 @@ plt.ylabel("$(\\xi_--\\xi_{ref})/ \\xi_{ref}$")
 plt.yscale('log')
 plt.xscale('log')
 
-plt.savefig('figures/findLmaxM_CFHT.png', bbox_inches='tight')
+plt.savefig('figures/opt/findLmaxM_CFHT.png', bbox_inches='tight')
 
 plt.show()

@@ -14,7 +14,7 @@ if len(sys.argv) != 3:
     quit()
 
 icosmo = int(sys.argv[1])
-ihm = 3
+ihm = 1
 usedData = sys.argv[2]
 
 # MCMC parameters
@@ -80,7 +80,7 @@ plt.title(
 plt.plot(x, model[:N], label="{0}" .format(usedData))
 plt.plot(x, theory[:N], '--', label="Sheth and Tormen")
 plt.legend()
-plt.errorbar(x, xip, np.sqrt(errp), fmt='.k',  elinewidth=0.5, capsize=3)
+plt.errorbar(x, xip, errp, fmt='.k',  elinewidth=0.5, capsize=3)
 plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
@@ -95,7 +95,7 @@ plt.plot(x, model[N:], label="{0}" .format(usedData))
 plt.plot(x, theory[N:], '--', label="Sheth and Tormen")
 plt.legend()
 
-plt.errorbar(x, xim, np.sqrt(errm), fmt='.k',  elinewidth=0.5, capsize=3)
+plt.errorbar(x, xim, errm, fmt='.k',  elinewidth=0.5, capsize=3)
 plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
@@ -163,7 +163,7 @@ plt.plot(x, upper_percentile2[:N], color='b', alpha=0.5,
 plt.plot(x, lower_percentile2[:N], color='b', alpha=0.5)
 plt.legend()
 
-plt.errorbar(x, xip, np.sqrt(errp), fmt='.k',  elinewidth=0.5, capsize=3)
+plt.errorbar(x, xip, errp, fmt='.k',  elinewidth=0.5, capsize=3)
 plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
@@ -184,7 +184,7 @@ plt.plot(x, upper_percentile2[N:], color='b', alpha=0.5,
 plt.plot(x, lower_percentile2[N:], color='b', alpha=0.5)
 plt.legend()
 
-plt.errorbar(x, xim, np.sqrt(errm), fmt='.k',  elinewidth=0.5, capsize=3)
+plt.errorbar(x, xim, errm, fmt='.k',  elinewidth=0.5, capsize=3)
 plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
@@ -203,7 +203,7 @@ plt.title(
 plt.plot(x, model[:N], label="{0}" .format(usedData))
 plt.plot(x, theory[:N], '--', label="Sheth and Tormen")
 plt.legend()
-plt.errorbar(x, xip, np.sqrt(errp), fmt='.k',  elinewidth=0.5, capsize=3)
+plt.errorbar(x, xip, errp, fmt='.k',  elinewidth=0.5, capsize=3)
 plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
@@ -216,7 +216,7 @@ plt.title(
 plt.plot(x, model[N:], label="{0}" .format(usedData))
 plt.plot(x, theory[N:], '--', label="Sheth and Tormen")
 plt.legend()
-plt.errorbar(x, xim, np.sqrt(errm), fmt='.k',  elinewidth=0.5, capsize=3)
+plt.errorbar(x, xim, errm, fmt='.k',  elinewidth=0.5, capsize=3)
 plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('$\\theta (arcmin)$')
