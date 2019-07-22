@@ -95,4 +95,3 @@ mv bin/halo_model bin/opt/findL_length
 # cp fortran/correlation/cosmo_CFHT.f90 src/halo_model
 # make
 # cp bin/halo_model bin/cosmo_xi_CFHT
-
