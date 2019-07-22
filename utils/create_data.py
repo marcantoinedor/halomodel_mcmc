@@ -1,6 +1,12 @@
 import os
 
 
+def power3D_all(clean=False):
+    if (not os.path.isfile("data/power_hm.dat")) or clean:
+        os.system("mkdir -p data")
+        os.system("./bin/halo_model_demo")
+
+
 def power3D_mmax(mmaxs, clean=False):
 
     if mmaxs == []:

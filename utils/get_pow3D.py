@@ -199,3 +199,37 @@ def get_x_axis_ihm(clean=False):
     line = lines[len(lines)-1].split('      ')[1]
     x_axis.append(float(line.split('    ')[0]))
     return x_axis
+
+
+def get_x_axis_all():
+    data = open("data/power_hm.dat", "r")
+
+    lines = data.readlines()
+    data.close()
+    x_axis = []
+    for j in range(1, len(lines)-1):
+        line = lines[j].split('       ')[1]
+        x_axis.append(float(line.split('    ')[0]))
+    line = lines[len(lines)-1].split('      ')[1]
+    x_axis.append(float(line.split('    ')[0]))
+    return x_axis
+
+
+def get_column_all(term, iscale):
+    '''
+    str  * int -> list
+    giving term in ['hm', '1h', '2h', 'linear'] and scale parameter index, returns the column of data
+    '''
+
+    data = open("data/power_{0}.dat" .format(term), "r")
+    lines = data.readlines()
+    data.close()
+
+    # parsing data
+    column = []
+    for j in range(1, len(lines)-1):
+        line = lines[j].split('       ')[1]
+        column.append(float(line.split('    ')[iscale]))
+    line = lines[len(lines)-1].split('      ')[1]
+    column.append(float(line.split('    ')[iscale]))
+    return column
