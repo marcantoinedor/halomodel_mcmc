@@ -55,7 +55,7 @@ for icosmo in icosmos:
     p_st = 0.3
 
     # Degrees of freedom
-    d = N - 2
+    d = 2*N - 2
     ki2_ml = khisquare([q_ml, p_ml], y, yerrinv, verbose=True)
     reduced_ki2_ml = ki2_ml/d
     print("{2} cosmology : khi^2={0}, reduced is khi^2_r={1}" .format(*[ki2_ml, reduced_ki2_ml, cosmos[i]]))

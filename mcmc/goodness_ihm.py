@@ -61,7 +61,7 @@ for ihm in ihms:
         p_st = 0.3
 
         # Degrees of freedom
-        d = N-2
+        d = 2*N-2
         ki2_ml = khisquare([q_ml, p_ml], y, yerrinv, verbose=True)
         reduced_ki2_ml = ki2_ml/d
         print("{3}, {2} cosmology : chi^2={0}, reduced is chi^2_r={1}" .format(*[ki2_ml, reduced_ki2_ml, cosmos[index_cosmo], halo_models[index_ihm]]))
