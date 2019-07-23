@@ -12,7 +12,7 @@ import os
 
 # Running code parameters
 optimize = True
-MCMC = True
+MCMC = False
 verb = False
 
 if len(sys.argv) != 4:
@@ -28,7 +28,7 @@ icosmo = int(sys.argv[1])
 ihm = int(sys.argv[2])
 
 # log space
-mmin_st = 7.0
+mmin_st = 14.0
 
 # MCMC parameters
 ndim, nwalkers, steps = 1, 200, 1000
