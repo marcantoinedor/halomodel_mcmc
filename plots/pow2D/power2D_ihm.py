@@ -21,6 +21,7 @@ if len(sys.argv) == 2:
     clean = (sys.argv[1] == 'clean')
 
 ihms = [1, 3]
+halomodels = ["HMcode", "Halo-Model"]
 
 begin_color = Color("blue")
 colors = list(begin_color.range_to(Color("green"), len(ihms)))
@@ -36,7 +37,7 @@ plt.figure(1).set_size_inches((8, 8), forward=False)
 i = 0
 for ihm in ihms:
     column = dat.get_data_ihm(ihm)
-    plt.plot(x_axis, column, color=colors[i].rgb, label="ihm={0}" .format(ihm))
+    plt.plot(x_axis, column, color=colors[i].rgb, label="{0}" .format(halomodels[i]))
     i += 1
 
 os.system('mkdir -p figures/power2D/')

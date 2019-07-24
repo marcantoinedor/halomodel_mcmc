@@ -37,7 +37,7 @@ os.system('mkdir -p figures/correlation/')
 # Get x_axis
 x_axis = dat.get_x_axis_ihm()
 
-halo_models = ['Halomodel', 'HMCode']
+halo_models = ['HMcode', 'Halomodel']
 index_ihm = 0
 for ihm in ihms:
 

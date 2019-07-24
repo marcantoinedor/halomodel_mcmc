@@ -21,6 +21,7 @@ if len(sys.argv) == 2:
 terms = ['hm', '1h', '2h', 'linear']
 a_s = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 ihms = [1, 3]
+halomodels = ["HMcode", "Halo-Model"]
 
 begin_color = Color("blue")
 colors = list(begin_color.range_to(Color("green"), len(ihms)))
@@ -37,7 +38,7 @@ for term in terms:
         i = 0
         for ihm in ihms:
             column = dat.get_column_ihm(term, ihm, index_a)
-            plt.plot(x_axis, column, color=colors[i].rgb, label="ihm={0}" .format(ihm))
+            plt.plot(x_axis, column, color=colors[i].rgb, label="{0}" .format(halomodels[i]))
             i += 1
 
         plt.title("{1} term in power spectrum, $a=${0}" .format(*[a, term]))
