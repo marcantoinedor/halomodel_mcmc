@@ -7,6 +7,8 @@ import correlation
 import CFHTLenS.get as dataCFHT
 import os
 import sys
+import pygtc
+
 
 # code mode
 if len(sys.argv) != 4:
@@ -114,7 +116,9 @@ for i in range(nwalkers):
 plt.figure(3)
 plt.savefig("mcmc/figures/{1}/ihm={2}/mcmc_walkers{0}.png" .format(*[icosmo, usedData, ihm]), dpi=200)
 
-fig = corner.corner(samples, labels=["$q$", "$p$"], truths=[q_ml, p_ml])
+# fig = corner.corner(samples, labels=["$q$", "$p$"], truths=[q_ml, p_ml])
+fig = pygtc.plotGTC(chains=[samples], paramNames=["$q$", "$p$"], truths=[(q_ml, p_ml), (q_st, p_st)], truthLabels=('CFHT', 'Sheth and Tormen'))
+fig.set_size_inches((8, 8), forward=False)
 fig.savefig("mcmc/figures/{1}/ihm={2}/mcmc_contours{0}.png" .format(*[icosmo, usedData, ihm]), dpi=200)
 
 print("Basic plots created")
