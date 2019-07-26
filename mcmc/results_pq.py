@@ -1,4 +1,3 @@
-import corner
 import emcee
 import scipy.optimize as op
 import numpy as np
@@ -117,10 +116,10 @@ plt.figure(3)
 plt.savefig("mcmc/figures/{1}/ihm={2}/mcmc_walkers{0}.png" .format(*[icosmo, usedData, ihm]), dpi=200)
 
 # fig = corner.corner(samples, labels=["$q$", "$p$"], truths=[q_ml, p_ml])
-fig = pygtc.plotGTC(chains=[samples], paramNames=["$q$", "$p$"], truths=[(q_ml, p_ml), (q_st, p_st)], truthLabels=('CFHT', 'Sheth and Tormen'))
+fig = pygtc.plotGTC(chains=[samples], paramNames=['$q$', '$p$'], truths=[(q_ml, p_ml), (q_st, p_st)], truthLabels=(
+    'CFHT', 'Sheth and Tormen'), nContourLevels=3, sigmaContourLevels=True)
 fig.set_size_inches((8, 8), forward=False)
 fig.savefig("mcmc/figures/{1}/ihm={2}/mcmc_contours{0}.png" .format(*[icosmo, usedData, ihm]), dpi=200)
-
 print("Basic plots created")
 
 if percentiles:
