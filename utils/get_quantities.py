@@ -83,8 +83,7 @@ def get_column_multiplicity_function(q, p, scale):
     data = open('data/q={0}p={1}/a={2}/multiplicity_function.dat' .format(*[q, p, scale]))
     lines = data.readlines()
     data.close()
-    x_axis = []
-    # print(lines)
+    column = []
     for line in lines:
-        x_axis.append(float(line))
-    return np.array(x_axis)
+        column.append(float(line))
+    return np.array(column)

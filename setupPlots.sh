@@ -110,3 +110,8 @@ mv bin/halo_model bin/plots/mass_function
 cp fortran/quantities/multiplicity_function_st.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/multiplicity_function
+
+# Plotting halo bias
+cp fortran/quantities/b_nu.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/b_nu
