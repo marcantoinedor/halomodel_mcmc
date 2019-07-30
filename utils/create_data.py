@@ -174,3 +174,24 @@ def xi_CFHT_ihm(ihms, l_max, icosmo=1, clean=False):
             os.system("mkdir -p data/ihm={0}" .format(ihm))
             print("Creating data for ihm={0}" .format(ihm))
             os.system("./bin/plots/xi_ihm {0} {1} {2}" .format(*[ihm, l_max, icosmo]))
+
+
+def m_nu(clean=False):
+    if (not os.path.isfile("data/quantities/nuM_10.dat")) or clean:
+        os.system("mkdir -p data/quantities/")
+        print("Creating data m(nu)")
+        os.system("./bin/plots/m_nu")
+
+
+def mass_function(q, p, scale, clean=False):
+    if (not os.path.isfile("data/q={0}p={1}/a={2}/mass_function.dat" .format(*[q, p, scale]))) or clean:
+        os.system("mkdir -p data/q={0}p={1}/a={2}" .format(*[q, p, scale]))
+        print("Creating data mass function")
+        os.system("./bin/plots/mass_function {0} {1} {2}" .format(*[q, p, scale]))
+
+
+def multiplicity_function(q, p, scale, clean=False):
+    if (not os.path.isfile("data/q={0}p={1}/a={2}/multiplicity_function.dat" .format(*[q, p, scale]))) or clean:
+        os.system("mkdir -p data/q={0}p={1}/a={2}" .format(*[q, p, scale]))
+        print("Creating data multiplicity function")
+        os.system("./bin/plots/multiplicity_function {0} {1} {2}" .format(*[q, p, scale]))

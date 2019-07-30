@@ -95,3 +95,18 @@ mv bin/halo_model bin/opt/findL_length
 # cp fortran/correlation/cosmo_CFHT.f90 src/halo_model
 # make
 # cp bin/halo_model bin/cosmo_xi_CFHT
+
+# Plotting m(nu) and nu(M)
+cp fortran/quantities/m_nu.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/m_nu
+
+# Plotting mass_function
+cp fortran/quantities/mass_function_st.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/mass_function
+
+# Plotting mass_function
+cp fortran/quantities/multiplicity_function_st.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/multiplicity_function
