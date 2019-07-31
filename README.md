@@ -23,7 +23,7 @@ The required dependencies are the following:
 - scipy
 - numpy
 - emcee : https://emcee.readthedocs.io/
-- corner : https://corner.readthedocs.io/
+- pygtc : https://pygtc.readthedocs.io/
 - colour : https://pypi.org/project/colour/
 - subprocess
 
