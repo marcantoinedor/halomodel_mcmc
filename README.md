@@ -7,25 +7,25 @@ All theoretical computations are from Alexander Mead's code available here [http
 To download (clone) this repository, follow the instructions on `github`, I recommend using `>git clone`.
 
 To run this code, you will have to clone the halo model library coded by Alexander Mead, and insert the absolute or relative path of this library in the `Makefile`.
-Update regularly this library to get the most accurate version of the library. This release is for the library the 15 of July 2019.
+Update regularly this library to get the most accurate version of the library. This release is for the library the 31st of July 2019.
 
 You need a Fortran compiler, and the `Makefile` is currently configured to use `gfortran`, but you can change this and it should (might) work with other compilers, although you may need to change some of the compile flags.
 
-Several directrories also need to be present in the base `halo_model` directory for the install to work correctly. You need `bin/`, `build/`, `debug_build/` and `lib/`. Some of these might be already present when you clone the repository, some of them might be created by the `Makefile`, but some of them you may need to create manually.
+Several directrories also need to be present in the base `halo_model` directory for the installation to work correctly. You need `bin/`, `build/`, `debug_build/` and `lib/`. Some of these might be already present when you clone the repository, some of them might be created by the `Makefile`, but some of them you may need to create manually.
 
 # Installation and dependencies
 
-Everything is coded using **python3** .
+Everything is coded using **python3**.
 
 The required dependencies are the following: 
 
 - matplotlib
 - scipy
 - numpy
+- subprocess (usually installed by default)
 - emcee : https://emcee.readthedocs.io/
 - pygtc : https://pygtc.readthedocs.io/
 - colour : https://pypi.org/project/colour/
-- subprocess
 
 In order to make the code easy to read and modify, some separated modules are implemented in python to get data, create data and others actions...
 
@@ -41,11 +41,13 @@ by this one :
 ```
 input = 'CFHTLenS/nz.txt'
 ```
+
 If the paths of these python files are not automatically detected, copy/paste this kind of line to your ***.profile*** file in your ***/home*** .
 
 ```
 export PYTHONPATH="${PYTHONPATH}:your_path_to_repo/utils/:your_path_to_repo/mcmc/:your_path_to_repo/utils/"
 ```
+
 # Plots
 
 To make plots of different quantities in the halo model with variations of some parameters (p, q, mmin, mmax, alpha), you will need to compile some files in order to create binaries which compute create some data from HM code. All created data is stored in the ***data/*** directory and not deleted because some computations can take some time.
@@ -65,7 +67,7 @@ To test the environment, one thing to do is to run the script ***plots/first_plo
 
 Take care of running all the scripts from the root of the working directory : ***hm_mcmc/*** .
 
-## How to use scripts
+## How to use plotting scripts
 
 Scripts will automatically create data if it does nto exist already. Simply run this kind of command:
 
@@ -100,26 +102,26 @@ All MCMC routines are in the files such as ***mcmc/run_cluster_\*.py***. To prep
 And then you can launch a MCMC calculation with a command like this one : 
 
 ```
-python3 mcmc/run_cluster_qp.py 1 3
+python3 mcmc/run_cluster_qp.py 1 3 20
 ```
 
-Where the first argument is the index of the cosmology, and the second one is the number of threads you want to use in parallel. 
+Where the first argument is the index of the cosmology, the second is the halo-model code to use( list in ***hmx.f90*** file in Mead's library) and the third one is the number of threads you want to use in parallel.
 
-All cosmology availabled are in the Fortran library, in the file ***cosmology_functions.f90***
+All cosmologies availabled are in the Fortran library, in the file ***cosmology_functions.f90***
 
-You can change the MCMC parameters for your run just in the beginning of the python file.
+You can change the MCMC parameters (number of walkers and steps) for your run just in the beginning of the python file.
 
 
 This script writes down be the following files :
-- A file containing the best fit informations : ***mcmc/results/CFHT/fit{icosmo}.txt***
-- A numpy array containing all the walkers steps. It will be saved in a 1D, so the MCMCS parameters(dim, walkers, steps) will be necesarry to use this information. Its path is ***mcmc/results/CFHT/chain_\*{icosmo}.npy***
+- A file containing the best fit informations : ***mcmc/results/{UsedData}/fit{icosmo}.txt***
+- A numpy array containing all the walkers steps. It will be saved in a 1D, so the MCMCS parameters(dim, walkers, steps) will be necesarry to use this information. Its path is ***mcmc/results/{UsedData}/chain_\*{icosmo}.npy***
 
 
 In this MCMC file, one can choose if it wants to find the best fitting parameters only or to run MCMC only. 
 
 ## Results
 
-An example-script is available deal with the data : 
+An example-script is available to interpret the data : 
 
 ```
 python3 mcmc/results_pq.py
