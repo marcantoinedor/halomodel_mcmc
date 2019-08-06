@@ -1,5 +1,6 @@
 import os
 import create_data as create
+import numpy as np
 
 
 def get_x_axis_st(q, p):
@@ -12,7 +13,7 @@ def get_x_axis_st(q, p):
     for j in range(1, len(lines)):
         value = lines[j].split('  ')[1]
         x_axis.append(float(value.lower()))
-    return x_axis
+    return np.array(x_axis)
 
 
 def get_data_st(q, p):
@@ -29,7 +30,7 @@ def get_data_st(q, p):
     for j in range(1, len(lines)):
         value = lines[j].split('        ')[1]
         column.append(float(value.lower()))
-    return column
+    return np.array(column)
 
 
 def get_x_axis_alpha(l_length):
@@ -41,7 +42,7 @@ def get_x_axis_alpha(l_length):
     for j in range(0, len(lines)):
         value = lines[j].split('  ')[1]
         x_axis.append(float(value.lower()))
-    return x_axis
+    return np.array(x_axis)
 
 
 def get_data_alpha(alpha):
@@ -57,7 +58,7 @@ def get_data_alpha(alpha):
     for j in range(len(lines1)):
         value1 = lines1[j].split('        ')[1]
         column1.append(float(value1.lower()))
-    return column1
+    return np.array(column1)
 
 
 def get_x_axis_mmin(l_length):
@@ -69,7 +70,7 @@ def get_x_axis_mmin(l_length):
     for j in range(len(lines)):
         value = lines[j].split('  ')[1]
         x_axis.append(float(value.lower()))
-    return x_axis
+    return np.array(x_axis)
 
 
 def get_data_mmin(mmin):
@@ -85,7 +86,7 @@ def get_data_mmin(mmin):
     for j in range(len(lines1)):
         value1 = lines1[j].split('        ')[1]
         column1.append(float(value1.lower()))
-    return column1
+    return np.array(column1)
 
 
 def get_data_ihm(ihm):
@@ -101,7 +102,7 @@ def get_data_ihm(ihm):
     for j in range(len(lines1)):
         value1 = lines1[j].split('        ')[1]
         column1.append(float(value1.lower()))
-    return column1
+    return np.array(column1)
 
 
 def get_x_axis_ihm(l_length):
@@ -113,4 +114,4 @@ def get_x_axis_ihm(l_length):
     for j in range(len(lines)):
         value = lines[j].split('  ')[1]
         x_axis.append(float(value.lower()))
-    return x_axis
+    return np.array(x_axis)

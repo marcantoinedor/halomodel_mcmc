@@ -4,6 +4,7 @@ import sys
 from colour import Color
 import utils.get_pow2D as get
 import utils.create_data as create
+import numpy as np
 
 SMALL_SIZE = 8
 MEDIUM_SIZE = 10
@@ -34,7 +35,7 @@ for q in qs:
         create.power_2D_st(q, p, clean=clean)
         column = get.get_data_st(q, p)
 
-        plt.plot(x_axis, column, color=colors[i].rgb, label="p={0}" .format(p))
+        plt.plot(x_axis, x_axis*(x_axis+1)*column/(2*np.pi), color=colors[i].rgb, label="p={0}" .format(p))
         i += 1
 
     os.system('mkdir -p figures/power2D/q={0}' .format(q))
@@ -45,7 +46,7 @@ for q in qs:
     plt.xscale('log')
     plt.yscale('log')
     plt.xlabel('$\ell$')
-    plt.ylabel('$C_\ell$')
+    plt.ylabel('$\ell (\ell +1)C_\ell/2\pi$')
     plt.savefig('figures/power2D/q={0}/power_p.png' .format(q), dpi=200, bbox_inches='tight')
     plt.clf()
     print(q)
