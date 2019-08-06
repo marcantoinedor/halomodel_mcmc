@@ -53,7 +53,7 @@ plt.ylabel("$(\\xi^+-\\xi^+_{ref})/ \\xi_{ref}$")
 plt.yscale('log')
 plt.xscale('log')
 plt.legend()
-plt.savefig('figures/opt/finL_lengthP.png', bbox_inches='tight')
+plt.savefig('figures/opt/findL_lengthP.png', bbox_inches='tight')
 
 plt.figure(3).set_size_inches((8, 8), forward=False)
 plt.title("Relative difference varying number of $C_l$, lref={0}" .format(ref))
