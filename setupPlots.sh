@@ -71,6 +71,11 @@ cp fortran/correlation/xi_ihm.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/xi_ihm
 
+# Shear correlation function, CFHT range: Varying sig8 parameter in halo mass function
+cp fortran/correlation/xi_sig8.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/xi_sig8
+
 # Optimisation scripts for number of scale factors for interpolation in Limber
 cp fortran/opt/findNa.f90 src/halo_model.f90
 make
@@ -110,8 +115,3 @@ mv bin/halo_model bin/plots/mass_function
 cp fortran/quantities/multiplicity_function_st.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/plots/multiplicity_function
-
-# Plotting halo bias
-cp fortran/quantities/b_nu.f90 src/halo_model.f90
-make
-mv bin/halo_model bin/plots/b_nu

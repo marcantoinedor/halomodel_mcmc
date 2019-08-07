@@ -141,3 +141,38 @@ def get_xim_ihm(ihm):
     for line in lines3:
         column3.append(float(line.lower()))
     return column3
+
+
+def get_x_axis_sig8():
+    # it is simply CFHT data
+    return dat.thetas()
+
+
+def get_xip_sig8(sig8):
+    '''
+    float -> list
+    returns the column of data
+    '''
+
+    data = open('data/sig8={0}/xi1.dat' .format(sig8))
+    lines1 = data.readlines()
+    data.close()
+    column1 = []
+    for line in lines1:
+        column1.append(float(line.lower()))
+    return column1
+
+
+def get_xim_sig8(sig8):
+    '''
+    float -> list
+    returns the column of data
+    '''
+
+    data = open('data/sig8={0}/xi3.dat' .format(sig8))
+    lines3 = data.readlines()
+    data.close()
+    column3 = []
+    for line in lines3:
+        column3.append(float(line.lower()))
+    return column3

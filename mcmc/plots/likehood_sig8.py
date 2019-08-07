@@ -51,6 +51,7 @@ else:
 
 
 nll = lambda *args: -lnlike(*args)
+
 # Best to use log-parameters I think, thanks to the living spaces of p and q
 result = op.minimize(nll, [sig8_st],
                      args=(y, yerrinv, True), method='Nelder-Mead', tol=1e-6)
