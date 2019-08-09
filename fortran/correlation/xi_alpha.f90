@@ -54,7 +54,7 @@ PROGRAM halo_model
    ! Set number of l points and l range (log spaced)
    lmin = 1.
    lmax = 1e4
-   l_length = 30
+   l_length = 80
    CALL fill_array(log(lmin), log(lmax), l_array, l_length)
    l_array = exp(l_array)
 

@@ -7,45 +7,30 @@ PROGRAM halo_model
    USE string_operations
 
    IMPLICIT NONE
-   REAL :: kmin, kmax, amin, amax, lmin, lmax, icosmo_real, ihm_real
-   REAL, ALLOCATABLE :: k(:), l_array(:), a(:), Cl(:), th_tab(:), xi_tab(:, :), xi_out(:)
+   REAL :: mass, kmin, kmax, amin, amax, lmin, lmax, thmin, thmax, icosmo_real
+   REAL, ALLOCATABLE :: k(:), l_array(:), a(:), Cl(:), th_tab(:), xi_tab(:, :)
    REAL, ALLOCATABLE :: pow_li(:, :), pow_2h(:, :, :, :), pow_1h(:, :, :, :), pow_hm(:, :, :, :)
    INTEGER :: icosmo, ihm, field(1), i, j, nf, ix(2)
-   INTEGER :: nk, na, nl, name, nth, l_max, m
+   INTEGER :: nk, na, l_length, l_max, nth, m
    INTEGER, ALLOCATABLE :: iBessel(:)
-   CHARACTER(len=256) :: input, th_str, p_str, q_str, icosmo_str, ihm_str, output1, output3, fbase, fext1, fext3
+   CHARACTER(len=256) :: fbase, fbase2, fext1, fext3, output1, output3, l_max_str, input, th_str, icosmo_str, ext
    TYPE(halomod) :: hmod
    TYPE(cosmology) :: cosm
+   LOGICAL :: verbose2
 
    LOGICAL, PARAMETER :: verbose = .FALSE.
    LOGICAL, PARAMETER :: response = .FALSE.
 
-   ! Get arguments from call
-   CALL get_command_argument(1, q_str)
-
-   CALL get_command_argument(2, p_str)
-
-   CALL get_command_argument(3, icosmo_str)
-
-   CALL get_command_argument(4, ihm_str)
-
-   ! Converting them to integers
-   read (icosmo_str, '(f10.0)') icosmo_real
-   read (ihm_str, '(f10.0)') ihm_real
-
    ! Assigns the cosmological model
+   CALL get_command_argument(1, icosmo_str)
+   read (icosmo_str, '(f10.0)') icosmo_real
    icosmo = INT(icosmo_real)
 
    CALL assign_cosmology(icosmo, cosm, verbose)
    CALL init_cosmology(cosm)
-
    ! Assign the halo model
-   ihm = INT(ihm_real)
+   ihm = 3
    CALL assign_halomod(ihm, hmod, verbose)
-
-   ! Assign p and q to hmod object
-   read (p_str, '(f10.0)') hmod%ST_p
-   read (q_str, '(f10.0)') hmod%ST_q
 
    ! Set number of k points and k range (log spaced)
    nk = 128
@@ -58,41 +43,40 @@ PROGRAM halo_model
    ! In lensing, we consider redshift between 0 and 3
    amin = 0.22
    amax = 1.0
-   na = 7
+   na = 8
+
    CALL fill_array(amin, amax, a, na)
 
+   ! Set number of l points and l range (log spaced)
    lmin = 1.
    lmax = 1e4
-   nl = 80
-   CALL fill_array(log(lmin), log(lmax), l_array, nl)
+   l_length = 80
+   CALL fill_array(log(lmin), log(lmax), l_array, l_length)
    l_array = exp(l_array)
 
    ! Allocate output Cl
-   ALLOCATE (Cl(nl))
+   ALLOCATE (Cl(l_length))
 
    ! Choose lens survey tracer_CFHTLenS_Kilbinger2013=4
    ix = tracer_CFHTLenS_Kilbinger2013
-
-   ! number of data points in CFHTLenS survey
+   ! get thetas (arcmin from CFHTLenS survey)
+   input = 'CFHTLenS/thetas.dat'
    nth = 21
+   ALLOCATE (th_tab(nth))
+
+   OPEN (2, file=input)
+   DO i = 1, nth
+      READ (2, *) th_str
+      READ (th_str, '(f10.0)') th_tab(i)
+      ! Converting to degrees, really important
+      th_tab(i) = th_tab(i)/60
+   END DO
+   CLOSE (2)
 
    ! Allocate array for power spectrum
    ALLOCATE (pow_li(nk, na), pow_2h(1, 1, nk, na), pow_1h(1, 1, nk, na), pow_hm(1, 1, nk, na))
 
-   ! Allocate arrays for angular correlation function
-   ALLOCATE (th_tab(nth), xi_tab(2, nth), xi_out(2*nth))
-
-   ! Path to CFHTLenS thetas data
-   input = 'CFHTLenS/thetas.dat'
-
-   OPEN (1, file=input)
-   DO i = 1, nth
-      READ (1, *) th_str
-      READ (th_str, '(f10.0)') th_tab(i)
-      ! Converting to degrees
-      th_tab(i) = th_tab(i)/60
-   END DO
-   CLOSE (1)
+   ALLOCATE (xi_tab(2, nth))
 
    ! Calculate halo model
    field = field_dmonly
@@ -105,24 +89,22 @@ PROGRAM halo_model
 
    END DO
 
-   CALL xpow_pka(ix, l_array, Cl, nl, k, a, pow_hm, nk, na, cosm)
+   CALL xpow_pka(ix, l_array, Cl, l_length, k, a, pow_hm, nk, na, cosm)
 
-! parameters for correlation functions
    l_max = 100000
-   ! theta parameter
    m = 2
    ALLOCATE (iBessel(m))
    iBessel(1) = 0
    iBessel(2) = 4
 
-   CALL calculate_angular_xi(iBessel, m, th_tab, xi_tab, nth, l_array, Cl, nl, l_max)
+   CALL calculate_angular_xi(iBessel, m, th_tab, xi_tab, nth, l_array, Cl, l_length, l_max)
 
    fbase = 'data/icosmo='
-   fbase = trim(fbase)//trim(icosmo_str)
-   fext1 = '/xi1_CFHT.dat'
+   fbase = TRIM(fbase)//TRIM(icosmo_str)
+   fext1 = '/xi1.dat'
    output1 = TRIM(fbase)//TRIM(fext1)
 
-   fext3 = '/xi3_CFHT.dat'
+   fext3 = '/xi3.dat'
    output3 = TRIM(fbase)//TRIM(fext3)
 
    OPEN (1, file=output1)

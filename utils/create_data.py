@@ -187,6 +187,17 @@ def xi_CFHT_sig8(sig8s, l_max, clean=False):
             os.system("./bin/plots/xi_sig8 {0} {1}" .format(*[sig8, l_max]))
 
 
+def xi_CFHT_cosmo(icosmos, clean=False):
+    if icosmos == []:
+        icosmos = [1, 4, 42, 50]
+
+    for icosmo in icosmos:
+        if (not os.path.isfile("data/icosmo={0}/xi1.dat" .format(icosmo))) or clean:
+            os.system("mkdir -p data/icosmo={0}" .format(icosmo))
+            print("Creating data for icosmo={0}" .format(icosmo))
+            os.system("./bin/plots/xi_cosmo {0}" .format(icosmo))
+
+
 def m_nu(clean=False):
     if (not os.path.isfile("data/quantities/nuM_10.dat")) or clean:
         os.system("mkdir -p data/quantities/")

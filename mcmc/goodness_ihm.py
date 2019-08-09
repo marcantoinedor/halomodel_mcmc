@@ -62,9 +62,17 @@ for ihm in ihms:
 
         # Degrees of freedom
         d = 2*N-2
+
+        # From best fit
         ki2_ml = khisquare([q_ml, p_ml], y, yerrinv, verbose=True)
         reduced_ki2_ml = ki2_ml/d
+
+        # From Sheth and Tormen
+        ki2_st = khisquare([q_st, p_st], y, yerrinv, verbose=True)
+        reduced_ki2_st = ki2_st/(d+2)
+
         print("{3}, {2} cosmology : chi^2={0}, reduced is chi^2_r={1}" .format(*[ki2_ml, reduced_ki2_ml, cosmos[index_cosmo], halo_models[index_ihm]]))
+        print("Sheth and Tormen: chi^2={0}, reduced is chi^2_r={1}" .format(*[ki2_st, reduced_ki2_st]))
         index_cosmo += 1
     index_ihm += 1
 

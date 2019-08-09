@@ -176,3 +176,38 @@ def get_xim_sig8(sig8):
     for line in lines3:
         column3.append(float(line.lower()))
     return column3
+
+
+def get_x_axis_cosmo():
+    # it is simply CFHT data
+    return dat.thetas()
+
+
+def get_xip_cosmo(icosmo):
+    '''
+    float -> list
+    returns the column of data
+    '''
+
+    data = open('data/icosmo={0}/xi1.dat' .format(icosmo))
+    lines1 = data.readlines()
+    data.close()
+    column1 = []
+    for line in lines1:
+        column1.append(float(line.lower()))
+    return column1
+
+
+def get_xim_cosmo(icosmo):
+    '''
+    float -> list
+    returns the column of data
+    '''
+
+    data = open('data/icosmo={0}/xi3.dat' .format(icosmo))
+    lines3 = data.readlines()
+    data.close()
+    column3 = []
+    for line in lines3:
+        column3.append(float(line.lower()))
+    return column3

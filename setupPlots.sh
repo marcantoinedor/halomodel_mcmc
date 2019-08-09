@@ -1,5 +1,6 @@
 #!/bin/bash
 mkdir -p bin/plots
+mkdir -p src
 
 # Basic plots of halo model power spectrum
 cp fortran/halo_model.demo.f90 src/halo_model.f90
@@ -96,10 +97,10 @@ cp fortran/opt/findL_length.f90 src/halo_model.f90
 make
 mv bin/halo_model bin/opt/findL_length
 
-# # plots of correlation function varying cosmology
-# cp fortran/correlation/cosmo_CFHT.f90 src/halo_model
-# make
-# cp bin/halo_model bin/cosmo_xi_CFHT
+# plots of correlation function varying cosmology
+cp fortran/correlation/xi_cosmo.f90 src/halo_model.f90
+make
+mv bin/halo_model bin/plots/xi_cosmo
 
 # Plotting m(nu) and nu(M)
 cp fortran/quantities/m_nu.f90 src/halo_model.f90

@@ -1,5 +1,6 @@
 #!/bin/bash
 mkdir -p bin/mcmcs
+mkdir -p src
 
 cp fortran/mcmcs/xi_st_CFHT.f90 src/halo_model.f90
 make
