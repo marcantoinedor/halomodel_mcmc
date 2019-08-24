@@ -6,6 +6,14 @@ import os
 import matplotlib.pyplot as plt
 import scipy.optimize as op
 
+SMALL_SIZE = 8
+MEDIUM_SIZE = 10
+BIGGER_SIZE = 20
+
+plt.rc('font', size=BIGGER_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
+
 computes = False
 icosmo = int(sys.argv[1])
 icosmos = [1, 4, 42]
@@ -66,12 +74,13 @@ value = lnlike([mmin_ml], y, yerrinv, verbose=True)
 print("Best fit is mmin={0}" .format(mmin_ml))
 
 
+plt.figure().set_size_inches((8, 8), forward=False)
 plt.plot(mmins, likes)
 plt.plot([mmin_ml], [value], '-ro', label="{0}" .format(mmin_ml))
-plt.xlabel('log(mmin)')
-plt.ylabel('ln_like')
+plt.xlabel('$log(M\\min)$')
+plt.ylabel('$log(L)$')
 # plt.yscale('log')
 plt.title('Best fit for {0} cosmology' .format(cosmos[index]))
 plt.legend()
 plt.savefig('mcmc/figures/CFHT/likehood/ihm={1}/mmin{0}.png' .format(*[icosmo, ihm]))
-# plt.show()
+plt.show()

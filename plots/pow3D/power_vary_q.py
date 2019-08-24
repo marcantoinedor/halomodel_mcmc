@@ -8,9 +8,9 @@ import utils.create_data as create
 
 SMALL_SIZE = 8
 MEDIUM_SIZE = 10
-BIGGER_SIZE = 15
+BIGGER_SIZE = 20
 
-plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('font', size=BIGGER_SIZE)          # controls default text sizes
 plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
 plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
 
@@ -51,7 +51,7 @@ for term in terms:
             plt.yscale('log')
             plt.legend()
 
-            plt.savefig('figures/power/a={1}/p={0}/power_{2}_p.png' .format(*[p, a, term]), dpi=200, bbox_inches='tight')
+            plt.savefig('figures/power/a={1}/p={0}/power_{2}_q.png' .format(*[p, a, term]), dpi=200, bbox_inches='tight')
             plt.clf()
 
             print("q={0}, p={1}" .format(*[q, p]))

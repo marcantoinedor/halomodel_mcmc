@@ -6,6 +6,14 @@ import os
 import matplotlib.pyplot as plt
 import scipy.optimize as op
 
+SMALL_SIZE = 8
+MEDIUM_SIZE = 10
+BIGGER_SIZE = 20
+
+plt.rc('font', size=BIGGER_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
+
 computes = False
 sig8_st = 0.8
 # Importing Data from CFHT
@@ -60,7 +68,7 @@ value = lnlike([sig8_ml], y, yerrinv, verbose=True)
 
 print("Best fit is sig8={0}" .format(sig8_ml))
 
-
+plt.figure().set_size_inches((8, 8), forward=False)
 plt.plot(sig8s, likes)
 plt.plot([sig8_ml], [value], '-ro', label="{0}" .format(sig8_ml))
 plt.xlabel('$\\sigma_8$')

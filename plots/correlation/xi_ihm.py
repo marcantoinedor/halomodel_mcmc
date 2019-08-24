@@ -8,15 +8,15 @@ import utils.get_correlation as dat
 
 SMALL_SIZE = 8
 MEDIUM_SIZE = 10
-BIGGER_SIZE = 15
+BIGGER_SIZE = 20
 
-plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('font', size=BIGGER_SIZE)          # controls default text sizes
 plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
 plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
 
 l_max = 100000
 ihms = [1, 3]
-
+halo_models = ["HMcode", "Halo-Model"]
 clean = False
 if len(sys.argv) == 2:
     clean = (sys.argv[1] == 'clean')
@@ -49,9 +49,9 @@ for ihm in ihms:
     column3 = dat.get_xim_ihm(ihm)
 
     plt.figure(1)
-    plt.plot(x_axis, column1, color=colors[i].rgb, label="ihm={0}" .format(ihm))
+    plt.plot(x_axis, column1, color=colors[i].rgb, label="{0}" .format(halo_models[i]))
     plt.figure(3)
-    plt.plot(x_axis, column3, color=colors[i].rgb, label="ihm={0}" .format(ihm))
+    plt.plot(x_axis, column3, color=colors[i].rgb, label="{0}" .format(halo_models[i]))
     i += 1
 
 plt.figure(1)

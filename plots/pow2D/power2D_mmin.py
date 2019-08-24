@@ -7,9 +7,9 @@ import utils.get_pow2D as dat
 
 SMALL_SIZE = 8
 MEDIUM_SIZE = 10
-BIGGER_SIZE = 15
+BIGGER_SIZE = 20
 
-plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('font', size=BIGGER_SIZE)          # controls default text sizes
 plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
 plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
 
@@ -36,7 +36,7 @@ plt.figure(1).set_size_inches((8, 8), forward=False)
 i = 0
 for mmin in mmins:
     column = dat.get_data_mmin(mmin)
-    plt.plot(x_axis, column, color=colors[i].rgb, label="mmin={0}" .format(mmin))
+    plt.plot(x_axis, column, color=colors[i].rgb, label="$M\\min={0}$" .format(mmin))
     i += 1
 
 os.system('mkdir -p figures/power2D/')

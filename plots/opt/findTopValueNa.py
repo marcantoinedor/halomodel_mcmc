@@ -6,6 +6,13 @@ import sys
 import utils.create_data as create
 import utils.get_opt as dat
 
+SMALL_SIZE = 8
+MEDIUM_SIZE = 10
+BIGGER_SIZE = 20
+
+plt.rc('font', size=BIGGER_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
 
 clean = False
 if len(sys.argv) == 2:
@@ -38,15 +45,15 @@ for na in nas:
     # Plotting
     plt.figure(1)
     plt.plot(ls, [abs(pow2D[j] - refs[j])/refs[j] for j in range(len(refs))], color=colors[i].rgb, label="na={0}" .format(na))
-    plt.legend()
     i += 1
 
-plt.figure(1).set_size_inches((8, 8), forward=False)
+plt.figure(1).set_size_inches((11, 11), forward=False)
 plt.title('Variation of 2D-Power in Limber\'s integration with $n_aref$={0}' .format(ref))
 plt.xlabel("$\ell$")
 plt.ylabel("$(C_{\ell }-C_{\ell ref}) / C_{\ell ref}$")
 plt.xscale('log')
 plt.yscale('log')
+plt.legend(loc=4)
 
 plt.savefig('figures/opt/findNa.png', dpi=200, bbox_inches='tight')
 

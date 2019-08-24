@@ -5,6 +5,14 @@ import os
 import sys
 import pygtc
 
+SMALL_SIZE = 8
+MEDIUM_SIZE = 10
+BIGGER_SIZE = 20
+
+plt.rc('font', size=BIGGER_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
+
 if len(sys.argv) != 2:
     print("Expecting 1 argument : icosmo")
     quit()
@@ -53,7 +61,8 @@ truths.append((q_st, p_st))
 truthLabels.append('Sheth and Tormen')
 
 truthColors = ['blue', 'red', 'green', 'purple'][:len(truths)]
-fig = pygtc.plotGTC(chains=samples, paramNames=names, chainLabels=chainLabels, truths=truths, truthLabels=truthLabels, truthColors=truthColors, nContourLevels=3, sigmaContourLevels=True)
+fig = pygtc.plotGTC(chains=samples, paramNames=names, chainLabels=chainLabels, truths=truths, truthLabels=truthLabels,
+                    truthColors=truthColors, nContourLevels=3, sigmaContourLevels=True, figureSize="MNRAS_page")
 fig.set_size_inches((8, 8), forward=False)
 os.system("mkdir -p mcmc/figures/{0}/icosmo={1}" .format(*[usedData, icosmo]))
 fig.savefig("mcmc/figures/{0}/icosmo={1}/mcmc_contours_ihms.png" .format(*[usedData, icosmo]), dpi=200)

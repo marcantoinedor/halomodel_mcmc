@@ -8,6 +8,14 @@ import CFHTLenS.get as dataCFHT
 import os
 import sys
 
+SMALL_SIZE = 8
+MEDIUM_SIZE = 10
+BIGGER_SIZE = 20
+
+plt.rc('font', size=BIGGER_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
+
 # code mode
 if len(sys.argv) != 4:
     print("Expecting 3 parameters : icosmo , data in ['CFHT', 'KiDs'], ihm")

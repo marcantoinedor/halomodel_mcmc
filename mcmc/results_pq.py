@@ -8,6 +8,14 @@ import os
 import sys
 import pygtc
 
+SMALL_SIZE = 8
+MEDIUM_SIZE = 10
+BIGGER_SIZE = 20
+
+plt.rc('font', size=BIGGER_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
+
 
 # code mode
 if len(sys.argv) != 4:
@@ -105,19 +113,21 @@ plt.ylabel('$\\xi_-$')
 plt.savefig('mcmc/figures/{1}/ihm={2}/xim{0}.png' .format(*[icosmo, usedData, ihm]), bbox_inches='tight', dpi=200)
 
 # plots of the sampler
-plt.figure(3)
+plt.figure(3).set_size_inches((8, 8), forward=False)
 for i in range(nwalkers):
-    ax1 = plt.subplot(311)
+    ax1 = plt.subplot(211)
     ax1.plot(chain[i, :, 0], color='black')
-    ax2 = plt.subplot(312, sharex=ax1)
+    ax1.set_ylabel("$q$")
+    ax2 = plt.subplot(212, sharex=ax1)
     ax2.plot(chain[i, :, 1], color='black')
-
+    ax2.set_ylabel("$p$")
+    plt.xlabel("Step number")
 plt.figure(3)
 plt.savefig("mcmc/figures/{1}/ihm={2}/mcmc_walkers{0}.png" .format(*[icosmo, usedData, ihm]), dpi=200)
 
 # fig = corner.corner(samples, labels=["$q$", "$p$"], truths=[q_ml, p_ml])
 fig = pygtc.plotGTC(chains=[samples], paramNames=['$q$', '$p$'], truths=[(q_ml, p_ml), (q_st, p_st)], truthLabels=(
-    'CFHT', 'Sheth and Tormen'), nContourLevels=3, sigmaContourLevels=True)
+    'CFHT', 'Sheth and Tormen'), nContourLevels=3, sigmaContourLevels=True, figureSize="MNRAS_page")
 fig.set_size_inches((8, 8), forward=False)
 fig.savefig("mcmc/figures/{1}/ihm={2}/mcmc_contours{0}.png" .format(*[icosmo, usedData, ihm]), dpi=200)
 print("Basic plots created")

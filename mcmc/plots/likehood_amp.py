@@ -6,12 +6,20 @@ import os
 import matplotlib.pyplot as plt
 import scipy.optimize as op
 
+SMALL_SIZE = 8
+MEDIUM_SIZE = 10
+BIGGER_SIZE = 20
+
+plt.rc('font', size=BIGGER_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
+
 computes = False
 icosmo = int(sys.argv[1])
 icosmos = [1, 4, 42]
 index = icosmos.index(icosmo)
 cosmos = ['Fiducial', 'WMAP9', 'Planck 2018']
-ihm = 1
+ihm = 3
 alpha_st = 1.0
 
 # Importing Data from CFHT
@@ -66,11 +74,11 @@ value = lnlike([alpha_ml], y, yerrinv, verbose=True)
 
 print("Best fit is alpha={0}" .format(alpha_ml))
 
-
+plt.figure().set_size_inches((8, 8), forward=False)
 plt.plot(alphas, likes)
 plt.plot([alpha_ml], [value], '-ro', label="{0}" .format(alpha_ml))
 plt.title('Best fit for {0} cosmology' .format(cosmos[index]))
-plt.xlabel('log(alpha)')
+plt.xlabel('$\\alpha$')
 plt.ylabel('ln_like')
 plt.legend()
 plt.savefig('mcmc/figures/CFHT/likehood/ihm={1}/alpha{0}.png' .format(*[icosmo, ihm]))
